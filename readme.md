@@ -1,13 +1,8 @@
-Copyright 2009 - 2010, Cake Development Corporation
-                        1785 E. Sahara Avenue, Suite 490-423
-                        Las Vegas, Nevada 89104
-                        http://cakedc.com
-
-## CakePHP Favorites Plugin
+# Favorites Plugin for CakePHP #
 
 Favorites plugin allows to associate users to any record in your database through human readable tags or categories.
 
-## Installation
+## Installation ##
 
 1. Place the favorites folder into any of your plugin directories for your app (for example app/plugins or cake/plugins)
 3. Create database tables using either the schema shell or the migrations plugin:
@@ -37,7 +32,7 @@ Favorites plugin allows to associate users to any record in your database throug
 				'modelCategories' => array(
 					'Post'));
 
-## Usage
+## Usage ##
 
 1. Add the Favorites helper to you controller
 		public $helpers = array('Favorites.Favorites');
@@ -79,7 +74,7 @@ You can achieve this result with a method like this one
 	}
 
 
-## Configuration Options
+## Configuration Options ##
 The Favorite behavior has some configuration option to adapt to your app needs. The configuration array accepts the following keys
 
 1. favoriteAlias: The name of the association to be created with the model the Behavior is attached to and the favoriteClass model. Default: Favorite
@@ -87,10 +82,28 @@ The Favorite behavior has some configuration option to adapt to your app needs. 
 3. foreignKey: the field in your table that serves as reference for the primary key of the model it is attached to. (Used for own implementations of Favorite model)
 4. counter_cache: the name of the field that will hold the number of times the model record has been favorited
 
-## Callbacks
+## Callbacks ##
 
 Additionally the behavior provides two callbacks to implement in your model:
 
 1. beforeSaveFavorite - called before save favorite. Should return boolean value.
 2. afterSaveFavorite - called after save favorite.
 
+## Support ##
+
+For more information and support, please visit the [Cake Development Corporation website](http://cakedc.com).
+
+## License ##
+
+Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+
+Licensed under The MIT License (http://www.opensource.org/licenses/mit-license.php)<br/>
+Redistributions of files must retain the above copyright notice.
+
+## Copyright ###
+
+Copyright 2009-2010<br/>
+Cake Development Corporation<br/>
+1785 E. Sahara Avenue, Suite 490-423<br/>
+Las Vegas, Nevada 89104<br/>
+http://cakedc.com<br/>
