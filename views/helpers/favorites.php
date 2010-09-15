@@ -73,7 +73,7 @@ class FavoritesHelper extends AppHelper {
 		$type = strtolower($type);
 		
 		if (!array_key_exists($type, $_defaultTexts)) {
-			trigger_error(sprintf(__('Incorrect favorite type "%s".', true), $type), E_USER_WARNING);
+			trigger_error(sprintf(__d('favorites', 'Incorrect favorite type "%s".', true), $type), E_USER_WARNING);
 		} else {
 			foreach (array('addText', 'removeText') as $textVarName) {
 				if (is_null($$textVarName)) {
