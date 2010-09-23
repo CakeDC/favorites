@@ -37,12 +37,8 @@ msgstr ""
 msgid "Record was successfully added"
 msgstr ""
 
-#: /controllers/favorites_controller.php:87
+#: /controllers/favorites_controller.php:87;90
 msgid "Record was not added."
-msgstr ""
-
-#: /controllers/favorites_controller.php:90
-msgid "Record was not added. "
 msgstr ""
 
 #: /controllers/favorites_controller.php:114

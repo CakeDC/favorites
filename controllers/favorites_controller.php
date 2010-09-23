@@ -85,9 +85,9 @@ class FavoritesController extends AppController {
 						$message = __d('favorites', 'Record was successfully added', true);
 					} else {
 						$message = __d('favorites', 'Record was not added.', true);
-					}			
+					}
 				} catch (Exception $e) {
-					$message = __d('favorites', 'Record was not added. ', true) . $e->getMessage();
+					$message = __d('favorites', 'Record was not added.', true) . ' ' . $e->getMessage();
 				}
 			}
 		}
