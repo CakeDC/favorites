@@ -16,18 +16,21 @@
  * @subpackage favorites.tests.fixtures
  */
 class FavoriteFixture extends CakeTestFixture {
+
 /**
  * Model name
  *
  * @var string $model
  */
 	public $name = 'Favorite';
+
 /**
  * Table name
  *
  * @var string $useTable
  */
 	public $table = 'favorites';
+
 /**
  * Fields definition
  *
@@ -46,12 +49,11 @@ class FavoriteFixture extends CakeTestFixture {
 				'PRIMARY' => array('column' => 'id', 'unique' => 1), 
 				'UNIQUE_FAVORITES' => array('column' => array('foreign_key', 'model', 'type', 'user_id'), 'unique' => 1))
 			);
+
 /**
  * record set
  *
  * @var array $records
  */
-	public $records = array(
-		);
+	public $records = array();
 }
-?>

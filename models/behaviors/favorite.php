@@ -34,7 +34,7 @@ class FavoriteBehavior extends ModelBehavior {
  * Settings array
  *
  * @var array
- **/
+ */
 	public $settings = array();
 
 /**

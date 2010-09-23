@@ -9,23 +9,22 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+App::import('Core', 'View');
+App::import('Helper', array('Favorites.Favorites', 'Html'));
+
 /**
  * Favorites Helper Test Case
  *
  * @package favorites
  * @subpackage favorites.tests.cases.helpers
  */
-
-App::import('Core', 'View');
-App::import('Helper', array('Favorites.Favorites', 'Html'));
-
 class FavoritesHelperTestCase extends CakeTestCase {
 
 /**
  * startTest
  *
  * @return void
- **/
+ */
 	public function startTest() {
 		$this->View = new View($controller = null);
 		ClassRegistry::addObject('view', $this->View);
@@ -42,14 +41,13 @@ class FavoritesHelperTestCase extends CakeTestCase {
 		));
 		$this->Favorites = new FavoritesHelper;
 		$this->Favorites->Html = new HtmlHelper;
-		
 	}
 
 /**
  * endTest
  *
  * @return void
- **/
+ */
 	public function endTest() {
 		ClassRegistry::flush();
 	}
@@ -58,7 +56,7 @@ class FavoritesHelperTestCase extends CakeTestCase {
  * tests that genereting a favorite link for a wrong type raises an error
  *
  * @return void
- **/
+ */
 	public function testToggleFavoriteWithWrongType() {
 		$this->expectError('Incorrect favorite type "love".');
 		$this->Favorites->toggleFavorite('love', 1);
@@ -68,7 +66,7 @@ class FavoritesHelperTestCase extends CakeTestCase {
  * tests the generation of a simple link to add a favorite
  *
  * @return void
- **/
+ */
 	public function testToggleFavorite() {
 		$result = $this->Favorites->toggleFavorite('watch', 1);
 		$this->assertEqual($result, '<a href="/favorites/favorites/add/watch/1" class="add-favorite watch">Watch it</a>');
@@ -78,7 +76,7 @@ class FavoritesHelperTestCase extends CakeTestCase {
  * tests the generation of a simple link to remove a favorite
  *
  * @return void
- **/
+ */
 	public function testToggleFavoriteWithRemove() {
 		$this->View->viewVars['userFavorites'] = array('watch' => array('my-thing-id'));
 		$this->Favorites->beforeRender();
