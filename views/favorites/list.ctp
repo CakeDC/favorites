@@ -12,7 +12,7 @@
 /**
  * Output for getting a list of favorites of a type for a user.
  *
- **/
+ */
 $key = Inflector::camelize($type);
 
 $emptyMessage = (isset($emptyMessage)) ? $emptyMessage : __d('favorites', 'You have no favorites in this category.', true);

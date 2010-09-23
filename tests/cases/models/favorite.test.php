@@ -55,7 +55,7 @@ class FavoriteTestCase extends CakeTestCase {
  * fixtures
  *
  * @var array
- **/
+ */
 	public $fixtures = array(
 		'plugin.favorites.favorite', 'core.article', 'core.user');
 
@@ -63,7 +63,7 @@ class FavoriteTestCase extends CakeTestCase {
  * startTest
  *
  * @return void
- **/
+ */
 	public function startTest() {
 		Configure::write('Favorites.modelCategories', array('FavoriteArticle'));
 		$this->Article = ClassRegistry::init('FavoriteArticle');
@@ -75,7 +75,7 @@ class FavoriteTestCase extends CakeTestCase {
  * endTest
  *
  * @return void
- **/
+ */
 	public function endTest() {
 		unset($this->Article);
 		ClassRegistry::flush();
@@ -84,7 +84,7 @@ class FavoriteTestCase extends CakeTestCase {
  * test that setup() binds all the models that are needed.
  *
  * @return void
- **/
+ */
 	public function testSetup() {
 		$this->assertTrue(isset($this->Article->Favorite));
 		$this->assertTrue(isset($this->Article->Favorite->FavoriteArticle));
@@ -102,7 +102,7 @@ class FavoriteTestCase extends CakeTestCase {
  * Test moving favorites.
  *
  * @return void
- **/
+ */
 	public function testMove() {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 2);
@@ -145,7 +145,7 @@ class FavoriteTestCase extends CakeTestCase {
  * test get favorites on Favorite model
  *
  * @return void
- **/
+ */
 	public function testGetFavorites() {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 2);
@@ -194,7 +194,7 @@ class FavoriteTestCase extends CakeTestCase {
  * Test that getByType behaves as expected
  *
  * @return void
- **/
+ */
 	public function testGetByType() {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 2);
@@ -209,7 +209,7 @@ class FavoriteTestCase extends CakeTestCase {
  * undocumented function
  *
  * @return void
- **/
+ */
 	public function testTypeCounts() {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
 		$this->Article->saveFavorite(1, 'FavoriteOther', 'default', 2);
@@ -238,7 +238,7 @@ class FavoriteTestCase extends CakeTestCase {
  * test checking if a user has favorited something.
  *
  * @return void
- **/
+ */
 	public function testIsFavorited() {
 		$this->assertTrue($this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1));
 		$result = $this->FavoriteModel->isFavorited('FavoriteArticle', 'default', 1, 1);
@@ -266,7 +266,7 @@ class FavoriteTestCase extends CakeTestCase {
  * 
  *
  * @return void
- **/
+ */
 	public function testGetFavoriteLists() {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 2);
