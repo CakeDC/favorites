@@ -16,18 +16,21 @@
  * @subpackage favorites.tests.cases.models
  */
 class FavoriteArticle extends CakeTestModel {
+
 /**
  * useTable
  *
  * @var string
  */
 	public $useTable = 'articles';
+
 /**
  * actsAs
  *
  * @var array
  */
 	public $actsAs = array('Favorites.Favorite');
+
 /**
  * belongsTo
  *
@@ -41,7 +44,14 @@ class FavoriteArticle extends CakeTestModel {
 	);
 }
 
+/**
+ * FavoriteUser
+ *
+ * @package favorites
+ * @subpackage favorites.tests.cases.models
+ */
 class FavoriteUser extends CakeTestModel {
+
 /**
  * useTable
  *
@@ -50,7 +60,14 @@ class FavoriteUser extends CakeTestModel {
 	public $useTable = 'users';
 }
 
+/**
+ * FavoriteTestCase
+ *
+ * @package favorites
+ * @subpackage favorites.tests.cases.models
+ */
 class FavoriteTestCase extends CakeTestCase {
+
 /**
  * fixtures
  *
@@ -80,6 +97,7 @@ class FavoriteTestCase extends CakeTestCase {
 		unset($this->Article);
 		ClassRegistry::flush();
 	}
+
 /**
  * test that setup() binds all the models that are needed.
  *
@@ -263,7 +281,7 @@ class FavoriteTestCase extends CakeTestCase {
 	}
 	
 /**
- * 
+ * testGetFavoriteLists
  *
  * @return void
  */
@@ -278,7 +296,5 @@ class FavoriteTestCase extends CakeTestCase {
 		        array('id' => '2', 'title' => 'Second Article'),
 		        array('id' => '3', 'title' => 'Third Article')));		
 		$this->assertEqual($result, $expected);
-	
 	}
 }
-?>

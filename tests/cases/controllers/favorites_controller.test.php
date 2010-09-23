@@ -9,29 +9,32 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+App::import('Controller', 'Favorites.Favorites');
+App::import('Component', array('Auth'));
+Mock::generate('AuthComponent', 'FavoritesControllerTestAuthComponent');
+
 /**
  * FavoritesController Test Case
  *
  * @package favorites
  * @subpackage favorites.tests.cases.controllers
  */
-App::import('Controller', 'Favorites.Favorites');
-App::import('Component', array('Auth'));
-Mock::generate('AuthComponent', 'FavoritesControllerTestAuthComponent');
-
 class FavoriteArticle extends CakeTestModel {
+
 /**
  * useTable
  *
  * @var string
  */
 	public $useTable = 'articles';
+
 /**
  * actsAs
  *
  * @var array
  */
 	public $actsAs = array('Favorites.Favorite');
+
 /**
  * belongsTo
  *
@@ -45,7 +48,14 @@ class FavoriteArticle extends CakeTestModel {
 	);
 }
 
+/**
+ * FavoriteUser
+ *
+ * @package favorites
+ * @subpackage favorites.tests.cases.controllers
+ */
 class FavoriteUser extends CakeTestModel {
+
 /**
  * useTable
  *
@@ -54,7 +64,14 @@ class FavoriteUser extends CakeTestModel {
 	public $useTable = 'users';
 }
 
+/**
+ * TestFavoritesController
+ *
+ * @package favorites
+ * @subpackage favorites.tests.cases.controllers
+ */
 class TestFavoritesController extends FavoritesController {
+
 /**
  * Auto render
  *
@@ -93,12 +110,22 @@ class TestFavoritesController extends FavoritesController {
 /**
  * Override controller method for testing
  *
+ * @param string $action 
+ * @param string $layout 
+ * @param string $file 
+ * @return void
  */
 	public function render($action = null, $layout = null, $file = null) {
 		$this->renderedView = $action;
 	} 
 }
 
+/**
+ * FavoritesControllerTestCase
+ *
+ * @package favorites
+ * @subpackage favorites.tests.cases.controllers
+ */
 class FavoritesControllerTestCase extends CakeTestCase {
 	
 /**
@@ -109,6 +136,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.favorites.favorite', 'core.article', 'core.user');
 
+/**
+ * startTest
+ *
+ * @return void
+ */
 	public function startTest() {
 		Configure::write('Favorites.types', array('like' => 'FavoriteArticle', 'dislike' => 'FavoriteArticle'));
 		Configure::write('Favorites.modelCategories', array('FavoriteArticle'));
@@ -121,12 +153,22 @@ class FavoritesControllerTestCase extends CakeTestCase {
 			'url' => array());
 	}
 
+/**
+ * endTest
+ *
+ * @return void
+ */
 	public function endTest() {
 		unset($this->Favorites);
 		ClassRegistry::flush();
 	}
 
-
+/**
+ * assertFlash
+ *
+ * @param string $message 
+ * @return void
+ */
 	public function assertFlash($message) {
 		$flash = $this->Favorites->Session->read('Message.flash');
 		$this->assertEqual($flash['message'], $message);
@@ -165,6 +207,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
 	}
 
+/**
+ * testAddJson
+ *
+ * @return void
+ */
 	public function testAddJson() {
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
 		$this->Favorites->beforeFilter();
@@ -175,6 +222,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
 	}
 
+/**
+ * testAddTwiceFailJson
+ *
+ * @return void
+ */
 	public function testAddTwiceFailJson() {
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
 		$this->Favorites->beforeFilter();
@@ -185,8 +237,13 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['message'], 'Record was not added. Already added.');
 		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
 	}
-	
-	public function testAddTwiceDiferentTypes() {
+
+/**
+ * testAddTwiceDifferentTypes
+ *
+ * @return void
+ */
+	public function testAddTwiceDifferentTypes() {
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->params['isJson'] = true;
@@ -196,7 +253,12 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['message'], 'Record was successfully added');
 		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
 	}
-	
+
+/**
+ * testAddUnexists
+ *
+ * @return void
+ */
 	public function testAddUnexists() {
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
 		$this->Favorites->beforeFilter();
@@ -206,7 +268,12 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['message'], 'Invalid identifier');
 		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
 	}
-	
+
+/**
+ * testAddWrongType
+ *
+ * @return void
+ */
 	public function testAddWrongType() {
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
 		$this->Favorites->beforeFilter();
@@ -233,6 +300,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
 	}
 
+/**
+ * testDeleteNotExists
+ *
+ * @return void
+ */
 	public function testDeleteNotExists() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
@@ -243,7 +315,12 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
 		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
 	}
-	
+
+/**
+ * testDeleteOtherUsers
+ *
+ * @return void
+ */
 	public function testDeleteOtherUsers() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		$this->Favorites->Auth->setReturnValueAt(0, 'user', 1, array('id'));
@@ -275,7 +352,12 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
 		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
 	}
-	
+
+/**
+ * testMoveWrongDirection
+ *
+ * @return void
+ */
 	public function testMoveWrongDirection() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
@@ -287,8 +369,12 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
 		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
 	}
-	
-	
+
+/**
+ * testMoveWrongDirection
+ *
+ * @return void
+ */
 	public function _testMoveWrongDirection2() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
@@ -305,7 +391,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
 	}
 
 /**
+ * testDeleteAjax
+ *
  * Short list test
+ *
+ * @return void
  */
 	public function testDeleteAjax() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
@@ -322,11 +412,13 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->redirectUrl, null);
 	}
 
-
-	
 /**
+ * testListAll
+ *
  * Full list test
- */ 
+ *
+ * @return void
+ */
 	public function testListAll() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
@@ -342,6 +434,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['type'], 'like');
 	}
 
+/**
+ * testListAllDiferentType
+ *
+ * @return void
+ */
 	public function testListAllDiferentType() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
@@ -364,6 +461,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEqual($this->Favorites->viewVars['type'], 'dislike');
 	}
 
+/**
+ * testListWrongType
+ *
+ * @return void
+ */
 	public function testListWrongType() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
@@ -371,6 +473,4 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->list_all('WRONGTYPE');
 		$this->assertFlash('Invalid object type.');
 	}
-
-	
 }

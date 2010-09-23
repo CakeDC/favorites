@@ -9,16 +9,15 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+App::import('Core', 'View');
+App::import('Helper', array('Favorites.Favorites', 'Html'));
+
 /**
  * Favorites Helper Test Case
  *
  * @package favorites
  * @subpackage favorites.tests.cases.helpers
  */
-
-App::import('Core', 'View');
-App::import('Helper', array('Favorites.Favorites', 'Html'));
-
 class FavoritesHelperTestCase extends CakeTestCase {
 
 /**
@@ -42,7 +41,6 @@ class FavoritesHelperTestCase extends CakeTestCase {
 		));
 		$this->Favorites = new FavoritesHelper;
 		$this->Favorites->Html = new HtmlHelper;
-		
 	}
 
 /**
