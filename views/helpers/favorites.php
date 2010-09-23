@@ -104,5 +104,4 @@ class FavoritesHelper extends AppHelper {
 		
 		return $link;
 	}
-	  
 }

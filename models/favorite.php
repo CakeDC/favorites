@@ -16,17 +16,19 @@
  * @subpackage favorites.models
  */
 class Favorite extends AppModel {
+
 /**
  * name
  *
  * @var string
  */
 	public $name = 'Favorite';
+
 /**
  * Categories for list options. Restricts types of favorites fetched when making lists.
  *
  * @var array
- **/
+ */
 	protected $_listCategories = array(
 		'Book'
 	);
@@ -35,7 +37,7 @@ class Favorite extends AppModel {
  * Additional Find types to be used with find($type);
  *
  * @var array
- **/
+ */
 	public $_findMethods = array(
 		'favorite' => true
 	);
@@ -61,7 +63,7 @@ class Favorite extends AppModel {
  * @param mixed $userId Id of the user you want to make lists for.
  * @param int $limit Number of list items to get in each category (defaults to 100).
  * @return void
- **/
+ */
 	public function getFavoriteLists($type, $userId, $limit = 100) {
 		$listItems = $this->getFavorites($userId, array('type' => $type));
 		$list = array();
@@ -95,7 +97,7 @@ class Favorite extends AppModel {
  * Helper method for getByType and getFavoriteLists
  *
  * @return array
- **/
+ */
 	public function getFavorites($userId, $options) {
 		$favorites = $this->find('all', array(
 			'conditions' => array(
@@ -240,7 +242,7 @@ class Favorite extends AppModel {
  * @param mixed $id Id of favorite to move.
  * @param string $direction Direction to move 'up' or 'down'.
  * @return boolean Success
- **/
+ */
 	public function move($id, $direction = 'up') {
 		$this->recursive = -1;
 		$subject = $this->read(null, $id);

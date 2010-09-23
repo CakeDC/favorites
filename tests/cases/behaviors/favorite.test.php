@@ -16,18 +16,21 @@
  * @subpackage favorites.tests.cases.behaviors
  */
 class FavoriteArticle extends CakeTestModel {
+
 /**
  * useTable
  *
  * @var string
  */
 	public $useTable = 'articles';
+
 /**
  * actsAs
  *
  * @var array
  */
 	public $actsAs = array('Favorites.Favorite');
+
 /**
  * belongsTo
  *
@@ -41,7 +44,14 @@ class FavoriteArticle extends CakeTestModel {
 	);
 }
 
+/**
+ * FavoriteUser
+ *
+ * @package favorites
+ * @subpackage favorites.tests.cases.behaviors
+ */
 class FavoriteUser extends CakeTestModel {
+
 /**
  * useTable
  *
@@ -50,7 +60,14 @@ class FavoriteUser extends CakeTestModel {
 	public $useTable = 'users';
 }
 
+/**
+ * FavoriteBehaviorTestCase
+ *
+ * @package favorites
+ * @subpackage favorites.tests.cases.behaviors
+ */
 class FavoriteBehaviorTestCase extends CakeTestCase {
+
 /**
  * fixtures
  *
@@ -184,5 +201,4 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 		$result = $this->FavoriteModel->read();
 		$this->assertEqual($result['Favorite']['position'], 0);
 	}
-
 }
