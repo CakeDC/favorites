@@ -1,0 +1,92 @@
+# LANGUAGE translation of the CakePHP Categories plugin
+#
+# Copyright 2010, Cake Development Corporation (http://cakedc.com)
+#
+# Licensed under The MIT License
+# Redistributions of files must retain the above copyright notice.
+#
+# @copyright Copyright 2010, Cake Development Corporation (http://cakedc.com)
+# @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CakePHP Favorites Plugin\n"
+"POT-Creation-Date: 2010-09-15 15:11+0200\n"
+"PO-Revision-Date: 2010-09-23 16:32-0300\n"
+"Last-Translator: Renan Gonçalves <renan.saddam@gmail.com>\n"
+"Language-Team: CakeDC <renan.saddam@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2;plural=n>1;\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+
+#: /controllers/favorites_controller.php:59
+msgid "Authentification required"
+msgstr "Autentificação exigida"
+
+#: /controllers/favorites_controller.php:72;132;150
+msgid "Invalid object type."
+msgstr "Tipo de objeto inválido."
+
+#: /controllers/favorites_controller.php:79
+msgid "Invalid identifier"
+msgstr "Identificador inválido"
+
+#: /controllers/favorites_controller.php:85
+msgid "Record was successfully added"
+msgstr "Registro foi adicionado com sucesso"
+
+#: /controllers/favorites_controller.php:87;90
+msgid "Record was not added."
+msgstr "Registro não foi adicionado."
+
+#: /controllers/favorites_controller.php:114
+msgid "Record removed from list"
+msgstr "Registro removido da lista"
+
+#: /controllers/favorites_controller.php:116
+msgid "Unable to delete favorite, please try again"
+msgstr "Não foi possível remover o favorito, por favor tente novamente"
+
+#: /controllers/favorites_controller.php:172
+msgid "Invalid direction"
+msgstr "Direção inválida"
+
+#: /controllers/favorites_controller.php:175
+msgid "Favorite positions updated."
+msgstr "Posições do favorito atualizadas."
+
+#: /controllers/favorites_controller.php:177
+msgid "Unable to change favorite position, please try again"
+msgstr "Não foi possível alterar a posição do favorito, por favor tente novamente"
+
+#: /controllers/favorites_controller.php:226
+msgid "That record does not exist."
+msgstr "Esse registro não existe."
+
+#: /controllers/favorites_controller.php:229
+msgid "That record does not belong to you."
+msgstr "Esse registro não pertence a você."
+
+#: /models/behaviors/favorite.php:130
+msgid "Operation is not allowed"
+msgstr "Operação não permitida"
+
+#: /models/behaviors/favorite.php:141
+msgid "Already added."
+msgstr "Já adicionado."
+
+#: /models/behaviors/favorite.php:151
+msgid "You cannot add more than %s items to this list"
+msgstr "Você não pode adicionar mais que %s itens nesta lista"
+
+#: /views/favorites/list.ctp:17
+msgid "You have no favorites in this category."
+msgstr "Você não possui favoritos nesta categoria."
+
+#: /views/helpers/favorites.php:76
+msgid "Incorrect favorite type \"%s\"."
+msgstr "Tipo incorreto de favorito \"%s\"."
+
