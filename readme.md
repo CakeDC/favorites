@@ -96,7 +96,7 @@ Additionally the behavior provides two callbacks to implement in your model:
 
 ## Support ##
 
-For support and feature request, please visit the [Comments Plugin Support Site](http://cakedc.lighthouseapp.com/projects/59901-favourites-plugin/).
+For support and feature request, please visit the [Favorites Plugin Support Site](http://cakedc.lighthouseapp.com/projects/59901-favourites-plugin/).
 
 For more information about our Professional CakePHP Services please visit the [Cake Development Corporation website](http://cakedc.com).
 
