@@ -5,14 +5,14 @@ Favorites plugin allows to associate users to any record in your database throug
 ## Installation ##
 
 1. Place the favorites folder into any of your plugin directories for your app (for example app/plugins or cake/plugins)
-3. Create database tables using either the schema shell or the migrations plugin:
+2. Create database tables using either the schema shell or the migrations plugin:
 		cake schema create -plugin favorites -name favorites
 		cake migration run all -plugin favorites
-4. Attach the Favorite behavior to your models via the $actsAs variable or dynamically using the BehaviorsCollection object methods:
+3. Attach the Favorite behavior to your models via the $actsAs variable or dynamically using the BehaviorsCollection object methods:
 		public $actsAs = array('Favorites.Favorite')
 	or
 		$this->Behaviors->attach('Favorites.Favorite')
-5. This plugin requires to have setup some parameters in global Configure storage:
+4. This plugin requires to have setup some parameters in global Configure storage:
 	Favorites.types contains supported objects that allowed to be stored as favorites.
 	Favorites.modelCategories allow to list all models and required contains for it.
 	Favorites.defaultTexts sets the default text for the helper toggleFavorite method
