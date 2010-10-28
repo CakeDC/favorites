@@ -16,6 +16,7 @@ Favorites plugin allows to associate users to any record in your database throug
 Example:
 
 	Configure::write('Favorites.types', array('post' => 'Blogs.Post', 'link' => 'Link'));
+	Configure::write('Favorites.defaultTexts', array('favorite' => __('Favorite it', true), 'watch' => __('Watch it', true)));
 	Configure::write('Favorites.modelCategories', array('Post', 'Link'));
 
 Or you could use the Configure::load() method to load a configuration file that has content similar to that below:
