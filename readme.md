@@ -5,43 +5,50 @@ Favorites plugin allows to associate users to any record in your database throug
 ## Installation ##
 
 1. Place the favorites folder into any of your plugin directories for your app (for example app/plugins or cake/plugins)
-2. Create database tables using either the schema shell or the migrations plugin:
+2. Create the required database tables using either the schema shell or the migrations plugin:
 		cake schema create -plugin favorites -name favorites
 		cake migration run all -plugin favorites
-3. Attach the Favorite behavior to your models via the $actsAs variable or dynamically using the BehaviorsCollection object methods:
-		public $actsAs = array('Favorites.Favorite')
-	or
-		$this->Behaviors->attach('Favorites.Favorite')
-4. This plugin requires to have setup some parameters in global Configure storage:
-	Favorites.types contains supported objects that allowed to be stored as favorites.
-	Favorites.modelCategories allow to list all models and required contains for it.
-	Favorites.defaultTexts sets the default text for the helper toggleFavorite method
+3. This plugin requires that you setup some parameters in global Configure storage:
+ 1. `Favorites.types contains supported objects that allowed to be stored as favorites.
+ 2. `Favorites.modelCategories allow to list all models and required contains for it.
+ 3. `Favorites.defaultTexts sets the default text for the helper toggleFavorite method
 
-			Configure::write('Favorites.types', array('post' => 'Blogs.Post', 'link' => 'Link'));
-			Configure::write('Favorites.modelCategories', array('Post', 'Link'));
+Example:
 
-	Or you could use the Configure::load() method for a file with the following example content:
+	Configure::write('Favorites.types', array('post' => 'Blogs.Post', 'link' => 'Link'));
+	Configure::write('Favorites.modelCategories', array('Post', 'Link'));
 
-			$config['Favorites'] = array(
-				'types' => array(
-					'favorite' => 'Post',
-					'watch' => 'Post'),
-				'defaultTexts' => array(
-					'favorite' => __('Favorite it', true),
-					'watch' => __('Watch it', true)),
-				'modelCategories' => array(
-					'Post'));
+Or you could use the Configure::load() method to load a configuration file that has content similar to that below:
+
+	$config['Favorites'] = array(
+		'types' => array(
+			'favorite' => 'Post',
+			'watch' => 'Post'),
+		'defaultTexts' => array(
+			'favorite' => __('Favorite it', true),
+			'watch' => __('Watch it', true)),
+		'modelCategories' => array(
+			'Post'));
 
 ## Usage ##
 
-1. Add the Favorites helper to you controller
-		public $helpers = array('Favorites.Favorites');
-2. Use the helper in your views to generate links mark a model record as favorite
-		<?php echo $this->Favorites->toggleFavorite('favorite-type', $modelId); 
+Add the Favorites helper to your controller:
 
-This link will toggle the "favorite-type" tag for this user and model record
+	public $helpers = array('Favorites.Favorites');
 
-If you want the helper to distinguish whether it needs to activate or deactivate the favorite flag in for the user,you need to pass to the view the variable "userFavorites" containing an associative array of user favorites per favorite type. This structure is needed
+Attach the Favorite behavior to your models via the `$actsAs` variable or dynamically using the `BehaviorsCollection` object methods:
+
+	public $actsAs = array('Favorites.Favorite');
+	// Or
+	$this->Behaviors->attach('Favorites.Favorite');
+
+Use the favourites helper in your views to generate links to mark a model record as favorite:
+
+	<?php echo $this->Favorites->toggleFavorite('favorite-type', $modelId);
+
+This link will toggle the "favorite-type" tag for this user and model record.
+
+If you want the helper to distinguish whether it needs to activate or deactivate the favorite flag in for the user, you need to pass to the view the variable `userFavorites` containing an associative array of user favorites per favorite type. The following structure is needed:
 
 	array(
 		'favorite-type1' => array(
@@ -73,26 +80,28 @@ You can achieve this result with a method like this one
 		return $result;
 	}
 
-
 ## Configuration Options ##
-The Favorite behavior has some configuration option to adapt to your app needs. The configuration array accepts the following keys
 
-1. favoriteAlias: The name of the association to be created with the model the Behavior is attached to and the favoriteClass model. Default: Favorite
-2. favoriteClass: If you need to extend the Favorite model or override it with your own implementation set this key to the model you want to use
-3. foreignKey: the field in your table that serves as reference for the primary key of the model it is attached to. (Used for own implementations of Favorite model)
-4. counter_cache: the name of the field that will hold the number of times the model record has been favorited
+The Favorite behavior has some configuration options to adapt to your apps needs.
+
+The configuration array accepts the following keys:
+
+* `favoriteAlias` - The name of the association to be created with the model the Behavior is attached to and the favoriteClass model. Default: Favorite
+* `favoriteClass` - If you need to extend the Favorite model or override it with your own implementation set this key to the model you want to use
+* `foreignKey` - the field in your table that serves as reference for the primary key of the model it is attached to. (Used for own implementations of Favorite model)
+* `counter_cache` - the name of the field that will hold the number of times the model record has been favorited
 
 ## Callbacks ##
 
 Additionally the behavior provides two callbacks to implement in your model:
 
-1. beforeSaveFavorite - called before save favorite. Should return boolean value.
-2. afterSaveFavorite - called after save favorite.
+* `beforeSaveFavorite` - called before save favorite. Should return boolean value.
+* `afterSaveFavorite` - called after save favorite.
 
 ## Requirements ##
 
 * PHP version: PHP 5.2+
-* CakePHP version: Cakephp 1.3 Stable
+* CakePHP version: 1.3 Stable
 
 ## Support ##
 
