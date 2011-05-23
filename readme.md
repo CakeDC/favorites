@@ -64,22 +64,10 @@ If you want the helper to distinguish whether it needs to activate or deactivate
 		)
 	);
 
-You can achieve this result with a method like this one
+You can achieve this result using with method `getAllFavorites` in `Favorite` model:
 
-	public function getFavorites($user = null) {
-		$keys = array('favorite', 'want-it', 'own-it');
-		$result = array_fill_keys($keys, array());
-
-		if (!is_null($user)) {
-			$Favorite = ClassRegistry::init('Favorites.Favorite');
-			$list = $Favorite->getFavorites($user, array('type' => $keys));
-			$list = Set::combine($list, '{n}.Favorite.id', '{n}.Favorite.foreign_key', '{n}.Favorite.type');
-
-			$result = array_merge($result, $list);
-		}
-
-		return $result;
-	}
+	$Favorite = ClassRegistry::init('Favorites.favorite');
+	$this->set('userFavorites', $Favorite->getAllFavorites('user-id'));	
 
 ## Configuration Options ##
 

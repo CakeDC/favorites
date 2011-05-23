@@ -177,6 +177,24 @@ class FavoriteTestCase extends CakeTestCase {
 	}
 
 /**
+ * test get all favorites on Favorite model
+ *
+ * @return void
+ */
+	public function testGetAllFavorites() {
+		Configure::write('Favorites.types', array('type' => 'Type', 'anothertype' => 'AnotherType'));
+		$this->Article->saveFavorite(1, 'FavoriteArticle', 'type', 1);
+		$this->Article->saveFavorite(1, 'FavoriteArticle', 'type', 2);
+		$this->Article->saveFavorite(1, 'FavoriteArticle', 'anothertype', 3);
+		$result = $this->FavoriteModel->getAllFavorites(1);
+		$this->assertEqual(count($result), 2);
+		$this->assertEqual(count($result['type']), 2);
+		$this->assertEqual(count($result['anothertype']), 1);
+		$this->assertEqual(array(1, 2), array_values($result['type']));
+		$this->assertEqual(array(3), array_values($result['anothertype']));
+	}
+
+/**
  * test get favorites with extra types (models and associations)
  *
  * @return void
@@ -244,7 +262,7 @@ class FavoriteTestCase extends CakeTestCase {
 
 		$this->assertEqual($results['FavoriteArticle'], 2);
 		$this->assertEqual($results['FavoriteOther'], 2);
-		
+
 		$results = $this->FavoriteModel->typeCounts(1, array('types' => array('OtherModel', 'FavoriteArticle', 'FavoriteOther')));
 
 		$this->assertEqual($results['FavoriteArticle'], 2);
@@ -265,7 +283,7 @@ class FavoriteTestCase extends CakeTestCase {
 		$result = $this->FavoriteModel->isFavorited('FavoriteArticle', 'default', 1, 2);
 		$this->assertFalse($result, 'User with no favorites, is being shown as having one. %s');
 	}
-	
+
 /**
  * Test getFavoriteId method
  *
@@ -275,11 +293,11 @@ class FavoriteTestCase extends CakeTestCase {
 		$this->assertTrue($this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1));
 		$result = $this->FavoriteModel->getFavoriteId('FavoriteArticle', 'default', 1, 1);
 		$this->assertFalse(empty($result));
-		
+
 		$result = $this->FavoriteModel->getFavoriteId('FavoriteArticle', 'default', 1, 2);
 		$this->assertFalse($result, 'User with no favorites, is being shown as having one. %s');
 	}
-	
+
 /**
  * testGetFavoriteLists
  *
@@ -289,12 +307,13 @@ class FavoriteTestCase extends CakeTestCase {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 2);
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 3);
-		$result = $this->FavoriteModel->getFavoriteLists('default', 1);		
+		$result = $this->FavoriteModel->getFavoriteLists('default', 1);
 		$expected = array(
 			'FavoriteArticle' => array(
 		        array('id' => '1', 'title' => 'First Article'),
 		        array('id' => '2', 'title' => 'Second Article'),
-		        array('id' => '3', 'title' => 'Third Article')));		
+		        array('id' => '3', 'title' => 'Third Article')));
 		$this->assertEqual($result, $expected);
 	}
 }
+
