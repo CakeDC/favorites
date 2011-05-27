@@ -111,6 +111,28 @@ class Favorite extends AppModel {
 		return $favorites;
 	}
 
+/**
+ * Returns all the favorites a given User has added
+ *
+ * @param string $id User id
+ * @return array Favorite list with the favorites keys
+ * Each key will have a value like the following:
+ * array(
+ * 'favorite-id1' => 'foreign-key1',
+ * 'favorite-id2' => 'foreign-key2')
+ * @access public
+ */
+	public function getAllFavorites($id = null) {
+		$keys = array_keys(Configure::read('Favorites.types'));
+		$result = array_fill_keys($keys, array());
+		if (!is_null($id)) {
+			$list = $this->getFavorites($id, array('type' => $keys));
+			$list = Set::combine($list, '{n}.Favorite.id', '{n}.Favorite.foreign_key', '{n}.Favorite.type');
+			$result = array_merge($result, $list);
+		}
+		return $result;
+	}
+
 
 /**
  * Returns the search data
@@ -294,7 +316,7 @@ class Favorite extends AppModel {
  */
 	public function getFavoriteId($modelName, $type, $foreignKey, $userId) {
 		$favoriteId = false;
-		
+
 		$record = $this->find('first', array(
 			'fields' => array($this->alias . '.' . $this->primaryKey),
 			'conditions' => array(
@@ -308,7 +330,7 @@ class Favorite extends AppModel {
 		if (isset($record[$this->alias][$this->primaryKey])) {
 			$favoriteId = $record[$this->alias][$this->primaryKey];
 		}
-		
+
 		return $favoriteId;
 	}
 
@@ -371,5 +393,6 @@ class Favorite extends AppModel {
 		}
 		return $result;
 	}
-	
+
 }
+

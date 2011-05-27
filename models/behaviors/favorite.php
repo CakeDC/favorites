@@ -1,25 +1,12 @@
 <?php
 /**
- * Favorite Behavior
+ * Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
  *
- * Attach to a Model to create hasMany relationship with Favorite model and
- * include counterCache, also provides some utility methods for favorites, like reordering,
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
  *
- * PHP versions 4 and 5
- *
- * Copyright 2007-2008, Cake Development Corporation
- * 							1785 E. Sahara Avenue, Suite 490-423
- * 							Las Vegas, Nevada 89104
- *
- * You may obtain a copy of the License at:
- * License page: http://projects.cakedc.com/licenses/TBD  TBD
- * Copyright page: http://converge.cakedc.com/copyright/
- *
- * @filesource
- * @copyright     Copyright 2007-2008, Cake Development Corporation
- * @link
- * @package       favorites
- * @subpackage    favorites.models.behaviors
+ * @copyright Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
