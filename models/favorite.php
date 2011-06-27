@@ -115,6 +115,7 @@ class Favorite extends AppModel {
  * Returns all the favorites a given User has added
  *
  * @param string $id User id
+ * @param array $options query options to be passed to the find method
  * @return array Favorite list with the favorites keys
  * Each key will have a value like the following:
  * array(
@@ -122,11 +123,11 @@ class Favorite extends AppModel {
  * 'favorite-id2' => 'foreign-key2')
  * @access public
  */
-	public function getAllFavorites($id = null) {
+	public function getAllFavorites($id = null, $options = array()) {
 		$keys = array_keys(Configure::read('Favorites.types'));
 		$result = array_fill_keys($keys, array());
 		if (!is_null($id)) {
-			$list = $this->getFavorites($id, array('type' => $keys));
+			$list = $this->getFavorites($id, array('type' => $keys) + $options);
 			$list = Set::combine($list, '{n}.Favorite.id', '{n}.Favorite.foreign_key', '{n}.Favorite.type');
 			$result = array_merge($result, $list);
 		}
@@ -383,9 +384,9 @@ class Favorite extends AppModel {
 		}
 		$record = $record[$this->alias];
 		$model = $record['model'];
+		$Model = ClassRegistry::init($model);
 		$result = $this->delete($id);
 		if ($result) {
-			$Model = ClassRegistry::init($model);
 			if (method_exists($Model, 'afterDeleteFavorite')) {
 				$result = $Model->afterDeleteFavorite(array('id' => $record['foreign_key'], 'userId' => $record['user_id'], 'model' => $model, 'type' => $record['type']));
 			}
