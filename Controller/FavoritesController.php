@@ -56,7 +56,7 @@ class FavoritesController extends AppController {
 				}
 			}
 		}
-		$this->set('authMessage', __d('favorites', 'Authentification required', true));
+		$this->set('authMessage', __d('favorites', 'Authentification required'));
 	}
 
 /**
@@ -69,30 +69,30 @@ class FavoritesController extends AppController {
 	public function add($type = null, $foreignKey = null) {
 		$status = 'error';
 		if (!isset($this->favoriteTypes[$type])) {
-			$message = __d('favorites', 'Invalid object type.', true);
+			$message = __d('favorites', 'Invalid object type.');
 		} else {
 			$Subject = ClassRegistry::init($this->favoriteTypes[$type]);
 			$Subject->id = $foreignKey;
 			//$this->Favorite->model = $this->favoriteTypes[$type];
 			$this->Favorite->model = $type;
 			if (!$Subject->exists()) {
-				$message = __d('favorites', 'Invalid identifier', true);
+				$message = __d('favorites', 'Invalid identifier');
 			} else {
 				try {
 					$result = $Subject->saveFavorite($this->Auth->user('id'), $Subject->name, $type, $foreignKey);
 					if ($result) {
 						$status = 'success';
-						$message = __d('favorites', 'Record was successfully added', true);
+						$message = __d('favorites', 'Record was successfully added');
 					} else {
-						$message = __d('favorites', 'Record was not added.', true);
+						$message = __d('favorites', 'Record was not added.');
 					}
 				} catch (Exception $e) {
-					$message = __d('favorites', 'Record was not added.', true) . ' ' . $e->getMessage();
+					$message = __d('favorites', 'Record was not added.') . ' ' . $e->getMessage();
 				}
 			}
 		}
 		$this->set(compact('status', 'message', 'type', 'foreignKey'));
-		if (!empty($this->params['isJson'])) {
+		if (!empty($this->request->params['isJson'])) {
 			return $this->render();
 		} else {
 			return $this->redirect($this->referer());
@@ -111,9 +111,9 @@ class FavoritesController extends AppController {
 			// Message defined
 		} else if ($this->Favorite->deleteRecord($id)) {
 			$status = 'success';
-			$message = __d('favorites', 'Record removed from list', true);
+			$message = __d('favorites', 'Record removed from list');
 		} else {
-			$message = __d('favorites', 'Unable to delete favorite, please try again', true);
+			$message = __d('favorites', 'Unable to delete favorite, please try again');
 		}
 
 		$this->set(compact('status', 'message'));
@@ -129,7 +129,7 @@ class FavoritesController extends AppController {
 	public function short_list($type = null) {
 		$type = Inflector::underscore($type);
 		if (!isset($this->favoriteTypes[$type])) {
-			$this->Session->setFlash(__d('favorites', 'Invalid object type.', true));
+			$this->Session->setFlash(__d('favorites', 'Invalid object type.'));
 			return;
 		}
 		$userId = $this->Auth->user('id');
@@ -147,7 +147,7 @@ class FavoritesController extends AppController {
 	public function list_all($type = null) {
 		$type = strtolower($type);
 		if (!isset($this->favoriteTypes[$type])) {
-			$this->Session->setFlash(__d('favorites', 'Invalid object type.', true));
+			$this->Session->setFlash(__d('favorites', 'Invalid object type.'));
 			return;
 		}
 		$userId = $this->Auth->user('id');
@@ -169,12 +169,12 @@ class FavoritesController extends AppController {
 		if (($message = $this->_isOwner($id)) !== true) {
 			// Message defined
 		} else if ($direction !== 'up' && $direction !== 'down') {
-			$message = __d('favorites', 'Invalid direction', true);
+			$message = __d('favorites', 'Invalid direction');
 		} else if ($this->Favorite->move($id, $direction)) {
 			$status = 'success';
-			$message = __d('favorites', 'Favorite positions updated.', true);
+			$message = __d('favorites', 'Favorite positions updated.');
 		} else {
-			$message = __d('favorites', 'Unable to change favorite position, please try again', true);
+			$message = __d('favorites', 'Unable to change favorite position, please try again');
 		}
 
 		$this->set(compact('status', 'message'));
@@ -194,14 +194,14 @@ class FavoritesController extends AppController {
 		if ($code == -999) {
 			parent::redirect($url, null, $exit);
 		}
-		if (!empty($this->viewVars['authMessage']) && !empty($this->params['isJson'])) {
+		if (!empty($this->viewVars['authMessage']) && !empty($this->request->params['isJson'])) {
 			$this->RequestHandler->renderAs($this, 'json');
 			$this->set('message', $this->viewVars['authMessage']);
 			$this->set('status', 'error');
 			echo $this->render('add');
 			$this->_stop();
 		}
-		if (!empty($this->params['isAjax']) || !empty($this->params['isJson'])) {
+		if (!empty($this->request->params['isAjax']) || !empty($this->request->params['isJson'])) {
 			return $this->setAction('short_list', $this->Favorite->model);
 		} else if (isset($this->viewVars['status']) && isset($this->viewVars['message'])) {
 			$this->Session->setFlash($this->viewVars['message'], 'default', array(), $this->viewVars['status']);
@@ -223,10 +223,10 @@ class FavoritesController extends AppController {
 		$favorite = $this->Favorite->read();
 		$this->Favorite->model = $favorite['Favorite']['model'];
 		if (empty($favorite)) {
-			return __d('favorites', 'That record does not exist.', true);
+			return __d('favorites', 'That record does not exist.');
 		}
 		if ($favorite['Favorite']['user_id'] != $this->Auth->user('id')) {
-			return __d('favorites', 'That record does not belong to you.', true);
+			return __d('favorites', 'That record does not belong to you.');
 		}
 		return true;
 	}

@@ -114,7 +114,7 @@ class FavoriteBehavior extends ModelBehavior {
 		if (method_exists($Model, 'beforeSaveFavorite')) {
 			$result = $Model->beforeSaveFavorite(array('id' => $foreignKey, 'userId' => $userId, 'model' => $modelName, 'type' => $type));
 			if (!$result) {
-				throw new Exception(__d('favorites', 'Operation is not allowed', true));
+				throw new Exception(__d('favorites', 'Operation is not allowed'));
 			}
 		}
 	
@@ -125,9 +125,9 @@ class FavoriteBehavior extends ModelBehavior {
 				'Favorite.type' => $type,
 				'Favorite.foreign_key' => $foreignKey)));
 		if ($existing > 0) {
-			throw new Exception(__d('favorites', 'Already added.', true));
+			throw new Exception(__d('favorites', 'Already added.'));
 		}
-		
+
 		if (array_key_exists($type, $this->favoriteTypes) && !is_null($this->favoriteTypes[$type]['limit'])) {
 			$currentCount = $Model->Favorite->find('count', array(
 				'conditions' => array(
@@ -135,11 +135,11 @@ class FavoriteBehavior extends ModelBehavior {
 					'Favorite.type' => $type)));
 			if ($currentCount >= $this->favoriteTypes[$type]['limit']) {
 				throw new Exception(sprintf(
-					__d('favorites', 'You cannot add more than %s items to this list', true),
+					__d('favorites', 'You cannot add more than %s items to this list'),
 					$this->favoriteTypes[$type]['limit']));
 			}
 		}
-		
+
 		$data = array(
 			'user_id' => $userId,
 			'model' => $modelName,
@@ -151,6 +151,7 @@ class FavoriteBehavior extends ModelBehavior {
 		if ($result && method_exists($Model, 'afterSaveFavorite')) {
 			$result = $Model->afterSaveFavorite(array('id' => $foreignKey, 'userId' => $userId, 'model' => $modelName, 'type' => $type, 'data' => $result));
 		}
+
 		return $result;
 	}
 

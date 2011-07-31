@@ -74,7 +74,9 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.favorites.favorite', 'core.article', 'core.user');
+		'plugin.favorites.favorite',
+		'core.article',
+		'core.user');
 
 /**
  * startTest
@@ -84,7 +86,7 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 	public function startTest() {
 		Configure::write('Favorites.types', array('like' => 'FavoriteArticle', 'dislike' => 'FavoriteArticle'));
 		Configure::write('Favorites.modelCategories', array('FavoriteArticle'));
-		
+
 		$this->Article = ClassRegistry::init('FavoriteArticle');
 		$this->FavoriteModel = ClassRegistry::init('Favorites.Favorite');
 		$this->Article->Favorite->delete('1');
@@ -110,13 +112,13 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 		$this->assertTrue(isset($this->Article->Favorite->FavoriteArticle));
 
 		$assoc = $this->Article->hasMany['Favorite'];
-		$this->assertEqual($assoc['className'], 'Favorite');
+		$this->assertEqual($assoc['className'], 'Favorites.Favorite');
 		$this->assertEqual($assoc['conditions'], array('Favorite.model' => 'FavoriteArticle'));
 
 		$assoc = $this->Article->Favorite->belongsTo['FavoriteArticle'];
 		$this->assertEqual($assoc['counterCache'], 'favorite_count');
 		$this->assertEqual($assoc['conditions'], '');
-		
+
 		$expected = array(
 			'like' => array('limit' => null, 'model' => 'FavoriteArticle'),
 			'dislike' => array('limit' => null, 'model' => 'FavoriteArticle'));
@@ -130,7 +132,7 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
  */
 	public function testSaveFavorite() {
 		$result = $this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
-		$this->assertTrue($result);
+		$this->assertTrue(is_array($result));
 
 		$result = $this->FavoriteModel->read();
 		$this->assertEqual($result['Favorite']['user_id'], 1);
@@ -153,7 +155,7 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 		$this->assertEqual($result['Favorite']['foreign_key'], 1);
 		$this->assertEqual($oldId, $result['Favorite']['id']);
 	}
-	
+
 /**
  * Test saving of favorites with a limit of favorites per user
  *
@@ -163,12 +165,12 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 		$this->Article->Behaviors->Favorite->favoriteTypes = array(
 			'like' => array('limit' => 2, 'model' => 'FavoriteArticle'),
 			'dislike' => array('limit' => null, 'model' => 'FavoriteArticle'));
-		
+
 		$result = $this->Article->saveFavorite(1, 'FavoriteArticle', 'like', 1);
-		$this->assertTrue($result);
+		$this->assertTrue(is_array($result));
 		$result = $this->Article->saveFavorite(1, 'FavoriteArticle', 'like', 2);
-		$this->assertTrue($result);
-		
+		$this->assertTrue(is_array($result));
+
 		try {
 			$this->Article->saveFavorite(1, 'FavoriteArticle', 'like', 3);
 			$this->fail('No exception thrown when saving too many favorites');		
@@ -176,9 +178,9 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 			$this->assertEqual($e->getMessage(), 'You cannot add more than 2 items to this list');
 		}
 		$result = $this->Article->saveFavorite(2, 'FavoriteArticle', 'like', 3);
-		$this->assertTrue($result);
+		$this->assertTrue(is_array($result));
 	}
-	
+
 /**
  * test that as favorites are added they appended to the end of the stack
  *

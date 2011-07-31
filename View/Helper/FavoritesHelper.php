@@ -15,6 +15,7 @@
  * @package favorites
  * @subpackage favorites.views.helpers
  */
+
 class FavoritesHelper extends AppHelper {
 
 /**
@@ -72,7 +73,7 @@ class FavoritesHelper extends AppHelper {
 		$link = '';
 		$type = strtolower($type);
 		if (!array_key_exists($type, $_defaultTexts)) {
-			trigger_error(sprintf(__d('favorites', 'Incorrect favorite type "%s".', true), $type), E_USER_WARNING);
+			throw new InvalidArgumentException(sprintf(__d('favorites', 'Incorrect favorite type "%s".'), $type));
 		} else {
 			foreach (array('addText', 'removeText') as $textVarName) {
 				if (is_null($$textVarName)) {
@@ -83,7 +84,7 @@ class FavoritesHelper extends AppHelper {
 				$options['class'] = '';
 			}
 			$options['class'] = $type . ' ' . $options['class'];
-			
+
 			$remove = array_key_exists($type, $this->_userFavorites) && in_array($id, $this->_userFavorites[$type]);
 			if ($remove) {
 				$url = array_merge($this->favoriteLinkBase, array(

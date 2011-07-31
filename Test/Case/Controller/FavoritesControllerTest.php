@@ -11,7 +11,7 @@
 
 App::import('Controller', 'Favorites.Favorites');
 App::import('Component', array('Auth'));
-Mock::generate('AuthComponent', 'FavoritesControllerTestAuthComponent');
+//Mock::generate('AuthComponent', 'FavoritesControllerTestAuthComponent');
 
 /**
  * FavoritesController Test Case

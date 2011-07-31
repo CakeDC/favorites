@@ -108,7 +108,7 @@ class FavoriteTestCase extends CakeTestCase {
 		$this->assertTrue(isset($this->Article->Favorite->FavoriteArticle));
 
 		$assoc = $this->Article->hasMany['Favorite'];
-		$this->assertEqual($assoc['className'], 'Favorite');
+		$this->assertEqual($assoc['className'], 'Favorites.Favorite');
 		$this->assertEqual($assoc['conditions'], array('Favorite.model' => 'FavoriteArticle'));
 
 		$assoc = $this->Article->Favorite->belongsTo['FavoriteArticle'];
@@ -276,7 +276,8 @@ class FavoriteTestCase extends CakeTestCase {
  * @return void
  */
 	public function testIsFavorited() {
-		$this->assertTrue($this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1));
+		$result = $this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
+		$this->assertTrue(is_array($result));
 		$result = $this->FavoriteModel->isFavorited('FavoriteArticle', 'default', 1, 1);
 		$this->assertTrue($result, 'Return is wrong, should be true. %s');
 
@@ -290,7 +291,8 @@ class FavoriteTestCase extends CakeTestCase {
  * @return void
  */
 	public function testGetFavoriteId() {
-		$this->assertTrue($this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1));
+		$result = $this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
+		$this->assertTrue(is_array($result));
 		$result = $this->FavoriteModel->getFavoriteId('FavoriteArticle', 'default', 1, 1);
 		$this->assertFalse(empty($result));
 
