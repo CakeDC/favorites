@@ -24,6 +24,11 @@ class FavoritesController extends AppController {
  */
 	public $name = 'Favorites';
 
+/**
+ * Models to load
+ *
+ * @var array
+ */
 	public $uses = array('Favorites.Favorite');
 
 /**
@@ -32,9 +37,7 @@ class FavoritesController extends AppController {
  *
  * @var array
  */
-	public $favoriteTypes = array(
-		'book' => 'Book'
-	);
+	public $favoriteTypes = array();
 
 /**
  * beforeFilter callback
@@ -79,6 +82,7 @@ class FavoritesController extends AppController {
 				$message = __d('favorites', 'Invalid identifier');
 			} else {
 				try {
+//					debug($this->Auth->user('id'));
 					$result = $Subject->saveFavorite($this->Auth->user('id'), $Subject->name, $type, $foreignKey);
 					if ($result) {
 						$status = 'success';
