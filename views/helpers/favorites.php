@@ -71,7 +71,6 @@ class FavoritesHelper extends AppHelper {
 		$_defaultTexts = Configure::read('Favorites.defaultTexts');
 		$link = '';
 		$type = strtolower($type);
-		
 		if (!array_key_exists($type, $_defaultTexts)) {
 			trigger_error(sprintf(__d('favorites', 'Incorrect favorite type "%s".', true), $type), E_USER_WARNING);
 		} else {
