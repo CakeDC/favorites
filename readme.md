@@ -1,5 +1,7 @@
 # Favorites Plugin for CakePHP #
 
+Version 1.1
+
 Favorites plugin allows to associate users to any record in your database through human readable tags or categories.
 
 ## Installation ##
@@ -92,6 +94,11 @@ Additionally the behavior provides two callbacks to implement in your model:
 * PHP version: PHP 5.2+
 * CakePHP version: 1.3 Stable
 
+## Requirements ##
+
+* PHP version: PHP 5.2+
+* CakePHP version: Cakephp 1.3 Stable
+
 ## Support ##
 
 For support and feature request, please visit the [Favorites Plugin Support Site](http://cakedc.lighthouseapp.com/projects/59901-favourites-plugin/).
@@ -107,7 +114,7 @@ Redistributions of files must retain the above copyright notice.
 
 ## Copyright ###
 
-Copyright 2009-2010<br/>
+Copyright 2009-2011<br/>
 [Cake Development Corporation](http://cakedc.com)<br/>
 1785 E. Sahara Avenue, Suite 490-423<br/>
 Las Vegas, Nevada 89104<br/>
