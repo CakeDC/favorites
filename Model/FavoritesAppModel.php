@@ -16,11 +16,5 @@
  */
 class FavoritesAppModel extends AppModel {
 
-/**
- * Plugin name
- *
- * @var string $plugin
- */
-        public $plugin = 'Favorites';
 
 }
