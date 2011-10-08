@@ -15,33 +15,35 @@
  * @package favorites
  * @subpackage favorites.tests.cases.models
  */
-class FavoriteArticle extends CakeTestModel {
+if (!class_exists('FavoriteArticle')) {
+	class FavoriteArticle extends CakeTestModel {
 
-/**
- * useTable
- *
- * @var string
- */
-	public $useTable = 'articles';
+	/**
+	 * useTable
+	 *
+	 * @var string
+	 */
+		public $useTable = 'articles';
 
-/**
- * actsAs
- *
- * @var array
- */
-	public $actsAs = array('Favorites.Favorite');
+	/**
+	 * actsAs
+	 *
+	 * @var array
+	 */
+		public $actsAs = array('Favorites.Favorite');
 
-/**
- * belongsTo
- *
- * @var array
- */
-	public $belongsTo = array(
-		'FavoriteUser' => array(
-			'className' => 'FavoriteUser',
-			'foreignKey' => 'user_id'
-		)
-	);
+	/**
+	 * belongsTo
+	 *
+	 * @var array
+	 */
+		public $belongsTo = array(
+			'FavoriteUser' => array(
+				'className' => 'FavoriteUser',
+				'foreignKey' => 'user_id'
+			)
+		);
+	}
 }
 
 /**
@@ -50,14 +52,16 @@ class FavoriteArticle extends CakeTestModel {
  * @package favorites
  * @subpackage favorites.tests.cases.models
  */
-class FavoriteUser extends CakeTestModel {
+if (!class_exists('FavoriteUser')) {
+	class FavoriteUser extends CakeTestModel {
 
-/**
- * useTable
- *
- * @var string
- */
-	public $useTable = 'users';
+	/**
+	 * useTable
+	 *
+	 * @var string
+	 */
+		public $useTable = 'users';
+	}
 }
 
 /**
@@ -74,7 +78,7 @@ class FavoriteTestCase extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.favorites.favorite', 'core.article', 'core.user');
+		'plugin.favorites.favorite', 'plugin.favorites.article', 'plugin.favorites.user');
 
 /**
  * startTest

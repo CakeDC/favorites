@@ -245,7 +245,7 @@ class Favorite extends AppModel {
 				$this->alias . '.model' => $options['types'],
 				$this->alias . '.user_id' => $userId,
 			),
-			'fields' => array('COUNT(*) AS count', $this->alias . '.model'),
+			'fields' => array($this->alias . '.model', 'COUNT(*) AS count'),
 			'group' => array($this->alias . '.model'),
 			'recursive' => -1
 		));
