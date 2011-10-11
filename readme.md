@@ -82,6 +82,34 @@ The configuration array accepts the following keys:
 * `foreignKey` - the field in your table that serves as reference for the primary key of the model it is attached to. (Used for own implementations of Favorite model)
 * `counter_cache` - the name of the field that will hold the number of times the model record has been favorited
 
+## Usage in ajax mode ##
+
+Usage of favorites plugin for ajax pages is strightforward. 
+Js code of call to the plugin should looks like next:
+
+	var _response = []; 
+	$.ajax({
+		url: App.basePath + 'favorites/favorites/add/' + 'wishlist' + '/' + '4cac8abf-4788-41cb-9450-7c220e8f3d6d' + '.json',
+		dataType: 'json',
+		success: function(response) {
+			_response = response.data;
+		}, 
+		complete: function() {
+			if (_response.status == 'success') {
+				//processAddFavorite(_response);			
+			}
+			// display _reponse.message
+			console.log(_response);
+		}
+	});
+
+Reponse data object contain next fields:
+
+* `foreignKey` - Object foreign key;
+* `message` - Final message about operation;
+* `status` -  Result status: error or success;
+* `type` - Favorite list type.
+
 ## Callbacks ##
 
 Additionally the behavior provides two callbacks to implement in your model:
