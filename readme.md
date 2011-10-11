@@ -33,6 +33,8 @@ Or you could use the Configure::load() method to load a configuration file that 
 		'modelCategories' => array(
 			'Post'));
 
+Configure::load or Configure::write calls need to put into config/bootstap.php file.
+
 ## Usage ##
 
 Add the Favorites helper to your controller:
