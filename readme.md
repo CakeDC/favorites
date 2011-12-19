@@ -82,7 +82,7 @@ The configuration array accepts the following keys:
 * `favoriteAlias` - The name of the association to be created with the model the Behavior is attached to and the favoriteClass model. Default: Favorite
 * `favoriteClass` - If you need to extend the Favorite model or override it with your own implementation set this key to the model you want to use
 * `foreignKey` - the field in your table that serves as reference for the primary key of the model it is attached to. (Used for own implementations of Favorite model)
-* `counter_cache` - the name of the field that will hold the number of times the model record has been favorited
+* `counterCache` - the name of the field that will hold the number of times the model record has been favorited
 
 ## Usage in ajax mode ##
 
