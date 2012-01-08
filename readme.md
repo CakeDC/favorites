@@ -6,10 +6,12 @@ Favorites plugin allows to associate users to any record in your database throug
 
 ## Installation ##
 
-1. Place the favorites folder into any of your plugin directories for your app (for example app/plugins or cake/plugins)
+1. Place the favorites folder into any of your plugin directories for your app (for example `app/Plugin` or `root_dir/plugins`)
 2. Create the required database tables using either the schema shell or the migrations plugin:
-		cake schema create -plugin favorites -name favorites
-		cake migration run all -plugin favorites
+
+		cake schema create -plugin Favorites -name favorites
+		cake Migrations.migration run all --plugin Favorites
+
 3. This plugin requires that you setup some parameters in global Configure storage:
  1. `Favorites.types contains supported objects that allowed to be stored as favorites.
  2. `Favorites.modelCategories allow to list all models and required contains for it.
@@ -26,12 +28,16 @@ Or you could use the Configure::load() method to load a configuration file that 
 	$config['Favorites'] = array(
 		'types' => array(
 			'favorite' => 'Post',
-			'watch' => 'Post'),
+			'watch' => 'Post'
+		),
 		'defaultTexts' => array(
 			'favorite' => __('Favorite it', true),
-			'watch' => __('Watch it', true)),
+			'watch' => __('Watch it', true)
+		),
 		'modelCategories' => array(
-			'Post'));
+			'Post'
+		)
+	);
 
 ## Usage ##
 
@@ -92,12 +98,12 @@ Additionally the behavior provides two callbacks to implement in your model:
 ## Requirements ##
 
 * PHP version: PHP 5.2+
-* CakePHP version: 1.3 Stable
+* CakePHP version: 2.x Stable
 
 ## Requirements ##
 
 * PHP version: PHP 5.2+
-* CakePHP version: Cakephp 1.3 Stable
+* CakePHP version: Cakephp 2.x Stable
 
 ## Support ##
 
@@ -107,14 +113,14 @@ For more information about our Professional CakePHP Services please visit the [C
 
 ## License ##
 
-Copyright 2009-2010, [Cake Development Corporation](http://cakedc.com)
+Copyright 2009-2012, [Cake Development Corporation](http://cakedc.com)
 
 Licensed under [The MIT License](http://www.opensource.org/licenses/mit-license.php)<br/>
 Redistributions of files must retain the above copyright notice.
 
 ## Copyright ###
 
-Copyright 2009-2011<br/>
+Copyright 2009-2012<br/>
 [Cake Development Corporation](http://cakedc.com)<br/>
 1785 E. Sahara Avenue, Suite 490-423<br/>
 Las Vegas, Nevada 89104<br/>
