@@ -1,4 +1,4 @@
-# Favorites Plugin for CakePHP (a separated push) #
+# Favorites Plugin for CakePHP #
 
 Version 1.1
 
