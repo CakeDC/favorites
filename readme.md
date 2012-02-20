@@ -1,4 +1,4 @@
-# Favorites Plugin for CakePHP (revert change to test again) #
+# Favorites Plugin for CakePHP (another test edit) #
 
 Version 1.1
 
