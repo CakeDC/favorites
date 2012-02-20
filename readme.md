@@ -1,4 +1,4 @@
-# Favorites Plugin for CakePHP (zuha fork) #
+# Favorites Plugin for CakePHP (zuha fork WITH COMMIT TO GITHUB ONLY) #
 
 Version 1.1
 
