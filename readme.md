@@ -1,4 +1,4 @@
-# Favorites Plugin for CakePHP #
+# Favorites Plugin for CakePHP (zuha fork) #
 
 Version 1.1
 
