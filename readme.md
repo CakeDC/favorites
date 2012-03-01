@@ -100,11 +100,6 @@ Additionally the behavior provides two callbacks to implement in your model:
 * PHP version: PHP 5.2+
 * CakePHP version: 2.x Stable
 
-## Requirements ##
-
-* PHP version: PHP 5.2+
-* CakePHP version: Cakephp 2.x Stable
-
 ## Support ##
 
 For support and feature request, please visit the [Favorites Plugin Support Site](http://cakedc.lighthouseapp.com/projects/59901-favourites-plugin/).
