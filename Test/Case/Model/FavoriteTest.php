@@ -74,7 +74,9 @@ class FavoriteTestCase extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.favorites.favorite', 'core.article', 'core.user');
+		'plugin.favorites.favorite', 
+		'core.article', 
+		'core.user');
 
 /**
  * startTest

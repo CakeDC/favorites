@@ -253,7 +253,7 @@ class Favorite extends AppModel {
 		$out = array_combine($options['types'], array_fill(0, count($options['types']), 0));
 		foreach ($counts as $count) {
 			$type = $count[$this->alias]['model'];
-			$number = $count[0]['count'];
+			$number = $count['Favorite']['count'];
 			$out[$type] = $number;
 		}
 		return $out;

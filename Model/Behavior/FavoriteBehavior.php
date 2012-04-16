@@ -111,6 +111,8 @@ class FavoriteBehavior extends ModelBehavior {
  * @return boolean success of save Returns true if the favorite record already exists.
  */
 	public function saveFavorite(Model $Model, $userId, $modelName, $type, $foreignKey) {
+		debug($userId);
+	
 		if (method_exists($Model, 'beforeSaveFavorite')) {
 			$result = $Model->beforeSaveFavorite(array('id' => $foreignKey, 'userId' => $userId, 'model' => $modelName, 'type' => $type));
 			if (!$result) {
@@ -172,8 +174,8 @@ class FavoriteBehavior extends ModelBehavior {
 				'Favorite.user_id' => $userId,
 				'Favorite.model' => $modelName,
 				'Favorite.type' => $type)));
-		if (isset($max[0]['max_position'])) {
-			$position = $max[0]['max_position'] + 1;
+		if (isset($max['Favorite']['max_position'])) {
+			$position = $max['Favorite']['max_position'] + 1;
 		}
 		return $position;
 	}
