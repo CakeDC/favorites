@@ -9,7 +9,7 @@ Favorites plugin allows to associate users to any record in your database throug
 1. Place the favorites folder into any of your plugin directories for your app (for example `app/Plugin` or `root_dir/plugins`)
 2. Create the required database tables using either the schema shell or the migrations plugin:
 
-		cake schema create -plugin Favorites -name favorites
+		cake schema create --plugin Favorites --name favorites
 		cake Migrations.migration run all --plugin Favorites
 
 3. This plugin requires that you setup some parameters in global Configure storage:
@@ -99,6 +99,11 @@ Additionally the behavior provides two callbacks to implement in your model:
 
 * PHP version: PHP 5.2+
 * CakePHP version: 2.x Stable
+
+## Requirements ##
+
+* PHP version: PHP 5.2+
+* CakePHP version: Cakephp 2.x Stable
 
 ## Support ##
 
