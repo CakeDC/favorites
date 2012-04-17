@@ -70,6 +70,16 @@ class FavoriteUser extends CakeTestModel {
  * @subpackage favorites.tests.cases.controllers
  */
 class TestFavoritesController extends FavoritesController {
+/**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = array(
+		'core.aco',
+		'core.aro',
+		'core.aros_aco',
+		);
 
 /**
  * Auto render
@@ -365,8 +375,10 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
 		//$this->Favorites->Auth->setReturnValueAt(0, 'user', 1, array('id'));
 		//$this->Favorites->Auth->setReturnValueAt(1, 'user', 2, array('id'));
+		$this->Favorites->Session->write('Auth.User.id', 2);
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
+		$this->Favorites->Session->write('Auth.User.id', 1);
 		$this->Favorites->delete($this->Favorites->Favorite->id);
 		$this->assertEqual($this->Favorites->viewVars['message'], 'That record does not belong to you.');
 		$this->assertEqual($this->Favorites->viewVars['status'], 'error');

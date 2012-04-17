@@ -82,8 +82,7 @@ class FavoritesController extends AppController {
 				$message = __d('favorites', 'Invalid identifier');
 			} else {
 				try {
-//					debug($this->Auth->user('id'));
-					$result = $Subject->saveFavorite($this->Auth->user('id'), $Subject->name, $type, $foreignKey);
+					$result = $Subject->saveFavorite($this->Session->read('Auth.User.id'), $Subject->name, $type, $foreignKey);
 					if ($result) {
 						$status = 'success';
 						$message = __d('favorites', 'Record was successfully added');
@@ -154,7 +153,7 @@ class FavoritesController extends AppController {
 			$this->Session->setFlash(__d('favorites', 'Invalid object type.'));
 			return;
 		}
-		$userId = $this->Auth->user('id');
+		$userId = $this->Session->read('Auth.User.id');
 		$favorites = $this->Favorite->getByType($userId, array('limit' => 100, 'type' => $type));
 		$this->set(compact('favorites', 'type'));
 		$this->render('list');
@@ -229,7 +228,7 @@ class FavoritesController extends AppController {
 		if (empty($favorite)) {
 			return __d('favorites', 'That record does not exist.');
 		}
-		if ($favorite['Favorite']['user_id'] != $this->Auth->user('id')) {
+		if ($favorite['Favorite']['user_id'] != $this->Session->read('Auth.User.id')) {
 			return __d('favorites', 'That record does not belong to you.');
 		}
 		return true;
