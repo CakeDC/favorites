@@ -70,6 +70,16 @@ class FavoriteUser extends CakeTestModel {
  * @subpackage favorites.tests.cases.controllers
  */
 class TestFavoritesController extends FavoritesController {
+/**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = array(
+		'core.aco',
+		'core.aro',
+		'core.aros_aco',
+		);
 
 /**
  * Auto render
