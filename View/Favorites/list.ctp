@@ -15,7 +15,7 @@
  */
 $key = Inflector::camelize($type);
 
-$emptyMessage = (isset($emptyMessage)) ? $emptyMessage : __d('favorites', 'You have no favorites in this category.', true);
+$emptyMessage = (isset($emptyMessage)) ? $emptyMessage : __d('favorites', 'You have no favorites in this category.');
 $name = 'name';
 ?>
 <?php if (empty($favorites[$key])): ?>

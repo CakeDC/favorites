@@ -6,10 +6,12 @@ Favorites plugin allows to associate users to any record in your database throug
 
 ## Installation ##
 
-1. Place the favorites folder into any of your plugin directories for your app (for example app/plugins or cake/plugins)
+1. Place the favorites folder into any of your plugin directories for your app (for example `app/Plugin` or `root_dir/plugins`)
 2. Create the required database tables using either the schema shell or the migrations plugin:
-		cake schema create -plugin favorites -name favorites
-		cake migration run all -plugin favorites
+
+		cake schema create --plugin Favorites --name favorites
+		cake Migrations.migration run all --plugin Favorites
+
 3. This plugin requires that you setup some parameters in global Configure storage:
  1. `Favorites.types contains supported objects that allowed to be stored as favorites.
  2. `Favorites.modelCategories allow to list all models and required contains for it.
@@ -26,14 +28,16 @@ Or you could use the Configure::load() method to load a configuration file that 
 	$config['Favorites'] = array(
 		'types' => array(
 			'favorite' => 'Post',
-			'watch' => 'Post'),
+			'watch' => 'Post'
+		),
 		'defaultTexts' => array(
 			'favorite' => __('Favorite it', true),
-			'watch' => __('Watch it', true)),
+			'watch' => __('Watch it', true)
+		),
 		'modelCategories' => array(
-			'Post'));
-
-Configure::load or Configure::write calls need to put into config/bootstap.php file.
+			'Post'
+		)
+	);
 
 ## Usage ##
 
@@ -82,35 +86,7 @@ The configuration array accepts the following keys:
 * `favoriteAlias` - The name of the association to be created with the model the Behavior is attached to and the favoriteClass model. Default: Favorite
 * `favoriteClass` - If you need to extend the Favorite model or override it with your own implementation set this key to the model you want to use
 * `foreignKey` - the field in your table that serves as reference for the primary key of the model it is attached to. (Used for own implementations of Favorite model)
-* `counterCache` - the name of the field that will hold the number of times the model record has been favorited
-
-## Usage in ajax mode ##
-
-Usage of favorites plugin for ajax pages is strightforward. 
-Js code of call to the plugin should looks like next:
-
-	var _response = []; 
-	$.ajax({
-		url: App.basePath + 'favorites/favorites/add/' + 'wishlist' + '/' + '4cac8abf-4788-41cb-9450-7c220e8f3d6d' + '.json',
-		dataType: 'json',
-		success: function(response) {
-			_response = response.data;
-		}, 
-		complete: function() {
-			if (_response.status == 'success') {
-				//processAddFavorite(_response);			
-			}
-			// display _reponse.message
-			console.log(_response);
-		}
-	});
-
-Reponse data object contain next fields:
-
-* `foreignKey` - Object foreign key;
-* `message` - Final message about operation;
-* `status` -  Result status: error or success;
-* `type` - Favorite list type.
+* `counter_cache` - the name of the field that will hold the number of times the model record has been favorited
 
 ## Callbacks ##
 
@@ -122,12 +98,12 @@ Additionally the behavior provides two callbacks to implement in your model:
 ## Requirements ##
 
 * PHP version: PHP 5.2+
-* CakePHP version: 1.3 Stable
+* CakePHP version: 2.x Stable
 
 ## Requirements ##
 
 * PHP version: PHP 5.2+
-* CakePHP version: Cakephp 1.3 Stable
+* CakePHP version: Cakephp 2.x Stable
 
 ## Support ##
 
@@ -137,14 +113,14 @@ For more information about our Professional CakePHP Services please visit the [C
 
 ## License ##
 
-Copyright 2009-2010, [Cake Development Corporation](http://cakedc.com)
+Copyright 2009-2012, [Cake Development Corporation](http://cakedc.com)
 
 Licensed under [The MIT License](http://www.opensource.org/licenses/mit-license.php)<br/>
 Redistributions of files must retain the above copyright notice.
 
 ## Copyright ###
 
-Copyright 2009-2011<br/>
+Copyright 2009-2012<br/>
 [Cake Development Corporation](http://cakedc.com)<br/>
 1785 E. Sahara Avenue, Suite 490-423<br/>
 Las Vegas, Nevada 89104<br/>

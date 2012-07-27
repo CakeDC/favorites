@@ -11,7 +11,6 @@
 
 App::import('Controller', 'Favorites.Favorites');
 App::import('Component', array('Auth'));
-Mock::generate('AuthComponent', 'FavoritesControllerTestAuthComponent');
 
 /**
  * FavoritesController Test Case
@@ -19,35 +18,33 @@ Mock::generate('AuthComponent', 'FavoritesControllerTestAuthComponent');
  * @package favorites
  * @subpackage favorites.tests.cases.controllers
  */
-if (!class_exists('FavoriteArticle')) {
-	class FavoriteArticle extends CakeTestModel {
+class FavoriteArticle extends CakeTestModel {
 
-	/**
-	 * useTable
-	 *
-	 * @var string
-	 */
-		public $useTable = 'articles';
+/**
+ * useTable
+ *
+ * @var string
+ */
+	public $useTable = 'articles';
 
-	/**
-	 * actsAs
-	 *
-	 * @var array
-	 */
-		public $actsAs = array('Favorites.Favorite');
+/**
+ * actsAs
+ *
+ * @var array
+ */
+	public $actsAs = array('Favorites.Favorite');
 
-	/**
-	 * belongsTo
-	 *
-	 * @var array
-	 */
-		public $belongsTo = array(
-			'FavoriteUser' => array(
-				'className' => 'FavoriteUser',
-				'foreignKey' => 'user_id'
-			)
-		);
-	}
+/**
+ * belongsTo
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'FavoriteUser' => array(
+			'className' => 'FavoriteUser',
+			'foreignKey' => 'user_id'
+		)
+	);
 }
 
 /**
@@ -56,18 +53,16 @@ if (!class_exists('FavoriteArticle')) {
  * @package favorites
  * @subpackage favorites.tests.cases.controllers
  */
-if (!class_exists('FavoriteUser')) {
-	class FavoriteUser extends CakeTestModel {
+class FavoriteUser extends CakeTestModel {
 
-	/**
-	 * useTable
-	 *
-	 * @var string
-	 */
-		public $useTable = 'users';
-	}
+/**
+ * useTable
+ *
+ * @var string
+ */
+	public $useTable = 'users';
 }
-	
+
 /**
  * TestFavoritesController
  *
@@ -103,7 +98,7 @@ class TestFavoritesController extends FavoritesController {
  *
  */
 	public function redirect($url, $status = null, $exit = true) {
-		if (!empty($this->params['isAjax'])) {
+		if (!empty($this->request->params['isAjax'])) {
 			return $this->setAction('short_list', $this->Favorite->model);
 		} else if (isset($this->viewVars['status']) && isset($this->viewVars['message'])) {
 			$this->Session->setFlash($this->viewVars['message'], 'default', array(), $this->viewVars['status']);
@@ -131,14 +126,16 @@ class TestFavoritesController extends FavoritesController {
  * @subpackage favorites.tests.cases.controllers
  */
 class FavoritesControllerTestCase extends CakeTestCase {
-	
+
 /**
  * Fixtures
  *
  * @var array
  */
 	public $fixtures = array(
-		'plugin.favorites.favorite', 'plugin.favorites.article', 'plugin.favorites.user');
+		'plugin.favorites.favorite',
+		'core.article',
+		'core.user');
 
 /**
  * startTest
@@ -146,18 +143,19 @@ class FavoritesControllerTestCase extends CakeTestCase {
  * @return void
  */
 	public function startTest() {
-		if (!defined('FULL_BASE_URL')) {
-			define('FULL_BASE_URL', 'http://site.test');
-		}
 		Configure::write('Favorites.types', array('like' => 'FavoriteArticle', 'dislike' => 'FavoriteArticle'));
 		Configure::write('Favorites.modelCategories', array('FavoriteArticle'));
-		$this->Favorites = new TestFavoritesController();
+		$this->Favorites = new TestFavoritesController(new CakeRequest());
 		$this->Favorites->constructClasses();
-		$this->Favorites->Auth = new FavoritesControllerTestAuthComponent();
-		$this->Favorites->params = array(
-			'named' => array(),
-			'pass' => array(),
-			'url' => array());
+
+		$this->Collection = $this->getMock('ComponentCollection');
+		if (!class_exists('MockAuthComponent2')) {
+			$this->getMock('AuthComponent', array('user'), array($this->Collection), 'MockAuthComponent2');
+		}
+
+		$this->AuthComponent = new MockAuthComponent2($this->Collection);
+		$this->AuthComponent->enabled = true;
+		$this->Favorites->Auth = $this->AuthComponent;
 	}
 
 /**
@@ -188,11 +186,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testBeforeFilter() {
 		$expected = array('like' => 'FavoriteArticle', 'dislike' => 'FavoriteArticle');
-		
+
 		$this->Favorites->favoriteTypes = array();
 		$this->Favorites->beforeFilter();
 		$this->assertEqual($this->Favorites->favoriteTypes, $expected);
-		
+
 		Configure::write('Favorites.types', array(
 			'like' => array('limit' => 10,'model' => 'FavoriteArticle'),
 			'dislike' => 'FavoriteArticle'));
@@ -208,7 +206,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testAdd() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 2);
 		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
@@ -220,9 +222,14 @@ class FavoritesControllerTestCase extends CakeTestCase {
  * @return void
  */
 	public function testAddJson() {
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->Favorites->Auth
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(1));
+
+		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->beforeFilter();
-		$this->Favorites->params['isJson'] = true;
 		$this->Favorites->add('like', 1);
 		$this->assertEqual($this->Favorites->redirectUrl, null);
 		$this->assertEqual($this->Favorites->viewVars['message'], 'Record was successfully added');
@@ -235,9 +242,13 @@ class FavoritesControllerTestCase extends CakeTestCase {
  * @return void
  */
 	public function testAddTwiceFailJson() {
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			//->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
-		$this->Favorites->params['isJson'] = true;
+		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('like', 2);
 		$this->Favorites->add('like', 2);
 		$this->assertEqual($this->Favorites->redirectUrl, null);
@@ -251,9 +262,13 @@ class FavoritesControllerTestCase extends CakeTestCase {
  * @return void
  */
 	public function testAddTwiceDifferentTypes() {
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
-		$this->Favorites->params['isJson'] = true;
+		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('like', 1);
 		$this->Favorites->add('dislike', 1);
 		$this->assertEqual($this->Favorites->redirectUrl, null);
@@ -267,9 +282,14 @@ class FavoritesControllerTestCase extends CakeTestCase {
  * @return void
  */
 	public function testAddUnexists() {
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		//$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
-		$this->Favorites->params['isJson'] = true;
+		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('like', 999);
 		$this->assertEqual($this->Favorites->redirectUrl, null);
 		$this->assertEqual($this->Favorites->viewVars['message'], 'Invalid identifier');
@@ -282,9 +302,14 @@ class FavoritesControllerTestCase extends CakeTestCase {
  * @return void
  */
 	public function testAddWrongType() {
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		//$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
-		$this->Favorites->params['isJson'] = true;
+		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('wrongtype', 999);
 		$this->assertEqual($this->Favorites->redirectUrl, null);
 		$this->assertEqual($this->Favorites->viewVars['message'], 'Invalid object type.');
@@ -298,7 +323,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testDelete() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$this->Favorites->delete($this->Favorites->Favorite->id);
@@ -314,7 +343,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testDeleteNotExists() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$this->Favorites->delete('999');
@@ -330,8 +363,8 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testDeleteOtherUsers() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValueAt(0, 'user', 1, array('id'));
-		$this->Favorites->Auth->setReturnValueAt(1, 'user', 2, array('id'));
+		//$this->Favorites->Auth->setReturnValueAt(0, 'user', 1, array('id'));
+		//$this->Favorites->Auth->setReturnValueAt(1, 'user', 2, array('id'));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$this->Favorites->delete($this->Favorites->Favorite->id);
@@ -348,7 +381,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testMove() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$fav1 = $this->Favorites->Favorite->id;
@@ -367,7 +404,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testMoveWrongDirection() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$fav1 = $this->Favorites->Favorite->id;
@@ -384,7 +425,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function _testMoveWrongDirection2() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$fav1 = $this->Favorites->Favorite->id;
@@ -406,9 +451,13 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testDeleteAjax() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
-		$this->Favorites->params['isAjax'] = true;
+		$this->Favorites->request->params['isAjax'] = true;
 		$this->Favorites->add('like', 1);
 		
 		$this->Favorites->redirectUrl = null;
@@ -428,7 +477,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testListAll() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 2);
 		$this->Favorites->add('like', 1);
@@ -448,7 +501,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testListAllDiferentType() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$this->Favorites->add('dislike', 1);
@@ -475,7 +532,11 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function testListWrongType() {
 		$_SERVER['HTTP_REFERER'] = '/articles/index';
-		$this->Favorites->Auth->setReturnValue('user', 1, array('id'));
+		$this->AuthComponent
+			->expects($this->any())
+			->method('user')
+			->with('id')
+			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->list_all('WRONGTYPE');
 		$this->assertFlash('Invalid object type.');

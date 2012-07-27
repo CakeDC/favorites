@@ -9,7 +9,7 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-App::import('Core', 'View');
+App::uses('View', 'View');
 App::import('Helper', array('Favorites.Favorites', 'Html'));
 
 /**
@@ -39,8 +39,8 @@ class FavoritesHelperTestCase extends CakeTestCase {
 			),
 			'modelCategories' => array('Article')
 		));
-		$this->Favorites = new FavoritesHelper;
-		$this->Favorites->Html = new HtmlHelper;
+		$this->Favorites = new FavoritesHelper($this->View);
+		$this->Favorites->Html = new HtmlHelper($this->View);
 	}
 
 /**
@@ -56,9 +56,9 @@ class FavoritesHelperTestCase extends CakeTestCase {
  * tests that genereting a favorite link for a wrong type raises an error
  *
  * @return void
+ * @expectedException InvalidArgumentException
  */
 	public function testToggleFavoriteWithWrongType() {
-		$this->expectError('Incorrect favorite type "love".');
 		$this->Favorites->toggleFavorite('love', 1);
 	}
 

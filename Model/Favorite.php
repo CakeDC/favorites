@@ -191,7 +191,7 @@ class Favorite extends AppModel {
 		if ($recursive != $this->recursive) {
 			$parameters['recursive'] = $recursive;
 		}
-		if (isset($extra['type']) && isset($this->_findMethods[$extra['type']])) {
+		if (isset($extra['type']) && isset($this->findMethods[$extra['type']])) {
 			$extra['operation'] = 'count';
 			return $this->find($extra['type'], array_merge($parameters, $extra));
 		} else {
@@ -245,7 +245,7 @@ class Favorite extends AppModel {
 				$this->alias . '.model' => $options['types'],
 				$this->alias . '.user_id' => $userId,
 			),
-			'fields' => array($this->alias . '.model', 'COUNT(*) AS count'),
+			'fields' => array('COUNT(*) AS count', $this->alias . '.model'),
 			'group' => array($this->alias . '.model'),
 			'recursive' => -1
 		));
