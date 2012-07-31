@@ -106,7 +106,7 @@ class FavoritesController extends AppController {
 		$status = 'error';
 		if (($message = $this->_isOwner($id)) !== true) {
 			// Message defined
-		} else if ($this->Favorite->deleteRecord($id)) {
+		} elseif ($this->Favorite->deleteRecord($id)) {
 			$status = 'success';
 			$message = __d('favorites', 'Record removed from list');
 		} else {
@@ -165,9 +165,9 @@ class FavoritesController extends AppController {
 		$direction = strtolower($direction);
 		if (($message = $this->_isOwner($id)) !== true) {
 			// Message defined
-		} else if ($direction !== 'up' && $direction !== 'down') {
+		} elseif ($direction !== 'up' && $direction !== 'down') {
 			$message = __d('favorites', 'Invalid direction');
-		} else if ($this->Favorite->move($id, $direction)) {
+		} elseif ($this->Favorite->move($id, $direction)) {
 			$status = 'success';
 			$message = __d('favorites', 'Favorite positions updated.');
 		} else {
@@ -200,7 +200,7 @@ class FavoritesController extends AppController {
 		}
 		if (!empty($this->request->params['isAjax']) || !empty($this->request->params['isJson'])) {
 			return $this->setAction('short_list', $this->Favorite->model);
-		} else if (isset($this->viewVars['status']) && isset($this->viewVars['message'])) {
+		} elseif (isset($this->viewVars['status']) && isset($this->viewVars['message'])) {
 			$this->Session->setFlash($this->viewVars['message'], 'default', array(), $this->viewVars['status']);
 		} elseif (!empty($this->viewVars['authMessage'])) {
 			$this->Session->setFlash($this->viewVars['authMessage']);
