@@ -18,13 +18,6 @@
 class FavoritesController extends AppController {
 
 /**
- * Controller name
- *
- * @var string
- */
-	public $name = 'Favorites';
-
-/**
  * Models to load
  *
  * @var array

@@ -18,13 +18,6 @@
 class Favorite extends AppModel {
 
 /**
- * name
- *
- * @var string
- */
-	public $name = 'Favorite';
-
-/**
  * Categories for list options. Restricts types of favorites fetched when making lists.
  *
  * @var array

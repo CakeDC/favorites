@@ -16,7 +16,6 @@
  * @subpackage favorites.config.schema
  */
 class favoritesSchema extends CakeSchema {
-	var $name = 'favorites';
 
 	function before($event = array()) {
 		return true;
@@ -25,7 +24,7 @@ class favoritesSchema extends CakeSchema {
 	function after($event = array()) {
 	}
 
-	var $favorites = array(
+	public $favorites = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
 		'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
 		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'index'),
