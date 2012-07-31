@@ -1,6 +1,6 @@
 # Favorites Plugin for CakePHP #
 
-Version 1.1
+Version 1.1 for cake 2.x
 
 Favorites plugin allows to associate users to any record in your database through human readable tags or categories.
 
