@@ -15,7 +15,7 @@
  * @package favorites
  * @subpackage favorites.config.schema
  */
-class favoritesSchema extends CakeSchema {
+class FavoritesSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;
