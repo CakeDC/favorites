@@ -18,13 +18,6 @@
 class FavoriteFixture extends CakeTestFixture {
 
 /**
- * Model name
- *
- * @var string $model
- */
-	public $name = 'Favorite';
-
-/**
  * Table name
  *
  * @var string $useTable
