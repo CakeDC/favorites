@@ -20,7 +20,7 @@ Favorites plugin allows to associate users to any record in your database throug
 Example:
 
 	Configure::write('Favorites.types', array('post' => 'Blogs.Post', 'link' => 'Link'));
-	Configure::write('Favorites.defaultTexts', array('favorite' => __('Favorite it', true), 'watch' => __('Watch it', true)));
+	Configure::write('Favorites.defaultTexts', array('favorite' => __('Favorite it'), 'watch' => __('Watch it')));
 	Configure::write('Favorites.modelCategories', array('Post', 'Link'));
 
 Or you could use the Configure::load() method to load a configuration file that has content similar to that below:
@@ -31,8 +31,8 @@ Or you could use the Configure::load() method to load a configuration file that 
 			'watch' => 'Post'
 		),
 		'defaultTexts' => array(
-			'favorite' => __('Favorite it', true),
-			'watch' => __('Watch it', true)
+			'favorite' => __('Favorite it'),
+			'watch' => __('Watch it')
 		),
 		'modelCategories' => array(
 			'Post'
@@ -53,7 +53,7 @@ Attach the Favorite behavior to your models via the `$actsAs` variable or dynami
 
 Use the favourites helper in your views to generate links to mark a model record as favorite:
 
-	<?php echo $this->Favorites->toggleFavorite('favorite-type', $modelId);
+	<?php echo $this->Favorites->toggleFavorite('favorite-type', $modelId); ?>
 
 This link will toggle the "favorite-type" tag for this user and model record.
 
@@ -75,7 +75,7 @@ If you want the helper to distinguish whether it needs to activate or deactivate
 You can achieve this result using with method `getAllFavorites` in `Favorite` model:
 
 	$Favorite = ClassRegistry::init('Favorites.favorite');
-	$this->set('userFavorites', $Favorite->getAllFavorites('user-id'));	
+	$this->set('userFavorites', $Favorite->getAllFavorites('user-id'));
 
 ## Configuration Options ##
 

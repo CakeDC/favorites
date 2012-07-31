@@ -164,7 +164,7 @@ class FavoriteBehavior extends ModelBehavior {
  * @param string $type favorite type
  * @return int
  */
-	protected function _getNextPosition($Model, $userId, $modelName, $type) {
+	protected function _getNextPosition(Model $Model, $userId, $modelName, $type) {
 		$position = 0;
 		$max = $Model->Favorite->find('first', array(
 			'fields' => array('MAX(Favorite.position) AS max_position'),
