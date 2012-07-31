@@ -179,7 +179,7 @@ class Favorite extends AppModel {
  * @param array
  * @return
  */
-	function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
+	public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
 		$parameters = compact('conditions');
 		if ($recursive != $this->recursive) {
 			$parameters['recursive'] = $recursive;
