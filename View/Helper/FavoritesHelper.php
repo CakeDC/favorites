@@ -44,10 +44,11 @@ class FavoritesHelper extends AppHelper {
 /**
  * Before render callback
  * Initializes the Helper
- * 
+ *
+ * @param string $viewFile The view file that is going to be rendered
  * @return void
  */
-	public function beforeRender() {
+	public function beforeRender($viewFile) {
 		if (ClassRegistry::isKeySet('view')) {
 			$View = ClassRegistry::getObject('view');
 			$this->_userFavorites = $View->getVar('userFavorites');
