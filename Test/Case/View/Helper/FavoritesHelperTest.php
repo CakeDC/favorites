@@ -25,9 +25,8 @@ class FavoritesHelperTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function startTest() {
+	public function startTest($method) {
 		$this->View = new View($controller = null);
-		ClassRegistry::addObject('view', $this->View);
 		Configure::write('Favorites', array(
 			'types' => array(
 				'favorite' => 'Article',
@@ -48,7 +47,7 @@ class FavoritesHelperTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function endTest() {
+	public function endTest($method) {
 		ClassRegistry::flush();
 	}
 
