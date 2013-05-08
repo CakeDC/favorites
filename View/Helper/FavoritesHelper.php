@@ -24,14 +24,14 @@ class FavoritesHelper extends AppHelper {
  * @var array
  */
 	public $favoriteLinkBase = array('admin' => false, 'plugin' => 'favorites', 'controller' => 'favorites');
-	
+
 /**
  * Helpers
  * 
  * @var array
  */	
-	public $helpers = array('Html', 'Session', 'Js' => 'Jquery', 'Time');
-	
+	public $helpers = array('Html', 'Session', 'Time');
+
 /**
  * User favorites - initialized in beforeRender
  * Contains the "userFavorites" variable transmitted to views by the controller
@@ -48,7 +48,8 @@ class FavoritesHelper extends AppHelper {
  * @param string $viewFile The view file that is going to be rendered
  * @return void
  */
-	public function beforeRender($viewFile = '') {
+	public function beforeRender($viewFile) {
+		parent::beforeRender($viewFile);
 		$this->_userFavorites = $this->_View->getVar('userFavorites');
 	}
 
@@ -98,7 +99,8 @@ class FavoritesHelper extends AppHelper {
 			
 			$link = $this->Html->link($linkText, $url, $options);
 		}
-		
+
 		return $link;
 	}
+
 }

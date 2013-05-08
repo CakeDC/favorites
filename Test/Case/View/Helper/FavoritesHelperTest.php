@@ -78,7 +78,7 @@ class FavoritesHelperTestCase extends CakeTestCase {
  */
 	public function testToggleFavoriteWithRemove() {
 		$this->View->viewVars['userFavorites'] = array('watch' => array('my-thing-id'));
-		$this->Favorites->beforeRender();
+		$this->Favorites->beforeRender('');
 		$result = $this->Favorites->toggleFavorite('watch', 'my-thing-id');
 		$this->assertEqual($result, '<a href="/favorites/favorites/delete/0" class="remove-favorite watch">Watch it</a>');
 
