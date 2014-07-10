@@ -115,12 +115,12 @@ class FavoriteTestCase extends CakeTestCase {
 		$this->assertTrue(isset($this->Article->Favorite->FavoriteArticle));
 
 		$assoc = $this->Article->hasMany['Favorite'];
-		$this->assertEqual($assoc['className'], 'Favorites.Favorite');
-		$this->assertEqual($assoc['conditions'], array('Favorite.model' => 'FavoriteArticle'));
+		$this->assertEquals($assoc['className'], 'Favorites.Favorite');
+		$this->assertEquals($assoc['conditions'], array('Favorite.model' => 'FavoriteArticle'));
 
 		$assoc = $this->Article->Favorite->belongsTo['FavoriteArticle'];
-		$this->assertEqual($assoc['counterCache'], 'favorite_count');
-		$this->assertEqual($assoc['conditions'], '');
+		$this->assertEquals($assoc['counterCache'], 'favorite_count');
+		$this->assertEquals($assoc['conditions'], '');
 	}
 
 /**
@@ -139,31 +139,31 @@ class FavoriteTestCase extends CakeTestCase {
 
 		$this->Article->Favorite->move($current['Favorite']['id'], 'up');
 		$new = $this->FavoriteModel->findByForeignKey(4);
-		$this->assertEqual($new['Favorite']['position'], $current['Favorite']['position'] - 1);
+		$this->assertEquals($new['Favorite']['position'], $current['Favorite']['position'] - 1);
 
 		$this->Article->Favorite->move($current['Favorite']['id'], 'down');
 		$new = $this->FavoriteModel->findByForeignKey(4);
-		$this->assertEqual($new['Favorite']['position'], $current['Favorite']['position']);
+		$this->assertEquals($new['Favorite']['position'], $current['Favorite']['position']);
 
 		$current = $this->FavoriteModel->findByForeignKey(1);
 		$this->Article->Favorite->move($current['Favorite']['id'], 'up');
 		$new = $this->FavoriteModel->findByForeignKey(1);
-		$this->assertEqual($new['Favorite']['position'], $current['Favorite']['position']);
+		$this->assertEquals($new['Favorite']['position'], $current['Favorite']['position']);
 
 		$current = $this->FavoriteModel->findByForeignKey(1);
 		$this->Article->Favorite->move($current['Favorite']['id'], 'down');
 		$new = $this->FavoriteModel->findByForeignKey(1);
-		$this->assertEqual($new['Favorite']['position'], $current['Favorite']['position'] + 1);
+		$this->assertEquals($new['Favorite']['position'], $current['Favorite']['position'] + 1);
 
 		$new = $this->FavoriteModel->findByForeignKey(2);
-		$this->assertEqual($new['Favorite']['position'], 0);
+		$this->assertEquals($new['Favorite']['position'], 0);
 
 		$all = $this->FavoriteModel->find('all', array(
 			'order' => 'Favorite.position ASC',
 			'conditions' => array('Favorite.user_id' => 1)
 		));
 		$positions = Set::extract('/Favorite/position', $all);
-		$this->assertEqual($positions, array(0,1,2,3));
+		$this->assertEquals($positions, array(0,1,2,3));
 	}
 
 /**
@@ -177,7 +177,7 @@ class FavoriteTestCase extends CakeTestCase {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 3);
 
 		$result = $this->FavoriteModel->getFavorites(1, array('types' => array('FavoriteArticle'), 'type' => 'default'));
-		$this->assertEqual(count($result), 3);
+		$this->assertEquals(count($result), 3);
 		$this->assertTrue(isset($result[0]['FavoriteArticle']['id']));
 		$this->assertTrue(isset($result[1]['FavoriteArticle']['id']));
 		$this->assertTrue(isset($result[2]['FavoriteArticle']['id']));
@@ -194,11 +194,11 @@ class FavoriteTestCase extends CakeTestCase {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'type', 2);
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'anothertype', 3);
 		$result = $this->FavoriteModel->getAllFavorites(1);
-		$this->assertEqual(count($result), 2);
-		$this->assertEqual(count($result['type']), 2);
-		$this->assertEqual(count($result['anothertype']), 1);
-		$this->assertEqual(array(1, 2), array_values($result['type']));
-		$this->assertEqual(array(3), array_values($result['anothertype']));
+		$this->assertEquals(count($result), 2);
+		$this->assertEquals(count($result['type']), 2);
+		$this->assertEquals(count($result['anothertype']), 1);
+		$this->assertEquals(array(1, 2), array_values($result['type']));
+		$this->assertEquals(array(3), array_values($result['anothertype']));
 	}
 
 /**
@@ -213,7 +213,7 @@ class FavoriteTestCase extends CakeTestCase {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 3);
 
 		$result = $this->FavoriteModel->getFavorites(1, array('types' => array('FavoriteArticle'), 'type' => 'default'));
-		$this->assertEqual(count($result), 3);
+		$this->assertEquals(count($result), 3);
 		$this->assertTrue(isset($result[0]['FavoriteArticle']['id']));
 		$this->assertFalse(isset($result[0]['FavoriteArticle']['FavoriteUser']));
 		$this->assertTrue(isset($result[1]['FavoriteArticle']['id']));
@@ -224,7 +224,7 @@ class FavoriteTestCase extends CakeTestCase {
 		$result = $this->FavoriteModel->getFavorites(1, array(
 			'types' => array('FavoriteArticle' => 'FavoriteUser'),
 			'type' => 'default'));
-		$this->assertEqual(count($result), 3);
+		$this->assertEquals(count($result), 3);
 		$this->assertTrue(isset($result[0]['FavoriteArticle']['id']));
 		$this->assertTrue(isset($result[0]['FavoriteArticle']['FavoriteUser']));
 		$this->assertTrue(isset($result[1]['FavoriteArticle']['id']));
@@ -245,7 +245,7 @@ class FavoriteTestCase extends CakeTestCase {
 
 		$result = $this->FavoriteModel->getByType(1, array('types' => array('FavoriteArticle'), 'type' => 'default'));
 		$this->assertTrue(isset($result['FavoriteArticle']));
-		$this->assertEqual(count($result['FavoriteArticle']), 3);
+		$this->assertEquals(count($result['FavoriteArticle']), 3);
 	}
 
 /**
@@ -267,14 +267,14 @@ class FavoriteTestCase extends CakeTestCase {
 		), false);
 		$results = $this->FavoriteModel->typeCounts(1, array('types' => array('FavoriteArticle', 'FavoriteOther')));
 
-		$this->assertEqual($results['FavoriteArticle'], 2);
-		$this->assertEqual($results['FavoriteOther'], 2);
+		$this->assertEquals($results['FavoriteArticle'], 2);
+		$this->assertEquals($results['FavoriteOther'], 2);
 
 		$results = $this->FavoriteModel->typeCounts(1, array('types' => array('OtherModel', 'FavoriteArticle', 'FavoriteOther')));
 
-		$this->assertEqual($results['FavoriteArticle'], 2);
-		$this->assertEqual($results['FavoriteOther'], 2);
-		$this->assertEqual($results['OtherModel'], 0);
+		$this->assertEquals($results['FavoriteArticle'], 2);
+		$this->assertEquals($results['FavoriteOther'], 2);
+		$this->assertEquals($results['OtherModel'], 0);
 	}
 
 /**
@@ -322,7 +322,7 @@ class FavoriteTestCase extends CakeTestCase {
 		        array('id' => '1', 'title' => 'First Article'),
 		        array('id' => '2', 'title' => 'Second Article'),
 		        array('id' => '3', 'title' => 'Third Article')));
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 	}
 }
 

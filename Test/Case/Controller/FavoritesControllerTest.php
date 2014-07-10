@@ -189,7 +189,7 @@ class FavoritesControllerTestCase extends CakeTestCase {
  */
 	public function assertFlash($message) {
 		$flash = $this->Favorites->Session->read('Message.flash');
-		$this->assertEqual($flash['message'], $message);
+		$this->assertEquals($flash['message'], $message);
 	}
 
 /**
@@ -202,14 +202,14 @@ class FavoritesControllerTestCase extends CakeTestCase {
 
 		$this->Favorites->favoriteTypes = array();
 		$this->Favorites->beforeFilter();
-		$this->assertEqual($this->Favorites->favoriteTypes, $expected);
+		$this->assertEquals($this->Favorites->favoriteTypes, $expected);
 
 		Configure::write('Favorites.types', array(
 			'like' => array('limit' => 10,'model' => 'FavoriteArticle'),
 			'dislike' => 'FavoriteArticle'));
 		$this->Favorites->favoriteTypes = array();
 		$this->Favorites->beforeFilter();
-		$this->assertEqual($this->Favorites->favoriteTypes, $expected);
+		$this->assertEquals($this->Favorites->favoriteTypes, $expected);
 	}
 
 /**
@@ -226,7 +226,7 @@ class FavoritesControllerTestCase extends CakeTestCase {
 			->will($this->returnValue(array('1')));
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 2);
-		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
+		$this->assertEquals($this->Favorites->redirectUrl, '/articles/index');
 	}
 
 /**
@@ -244,9 +244,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
-		$this->assertEqual($this->Favorites->redirectUrl, null);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Record was successfully added');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
+		$this->assertEquals($this->Favorites->redirectUrl, null);
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Record was successfully added');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'success');
 	}
 
 /**
@@ -264,9 +264,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('like', 2);
 		$this->Favorites->add('like', 2);
-		$this->assertEqual($this->Favorites->redirectUrl, null);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Record was not added. Already added.');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
+		$this->assertEquals($this->Favorites->redirectUrl, null);
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Record was not added. Already added.');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
 	}
 
 /**
@@ -284,9 +284,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('like', 1);
 		$this->Favorites->add('dislike', 1);
-		$this->assertEqual($this->Favorites->redirectUrl, null);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Record was successfully added');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
+		$this->assertEquals($this->Favorites->redirectUrl, null);
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Record was successfully added');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'success');
 	}
 
 /**
@@ -304,9 +304,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->beforeFilter();
 		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('like', 999);
-		$this->assertEqual($this->Favorites->redirectUrl, null);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Invalid identifier');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
+		$this->assertEquals($this->Favorites->redirectUrl, null);
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Invalid identifier');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
 	}
 
 /**
@@ -324,9 +324,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->beforeFilter();
 		$this->Favorites->request->params['isJson'] = true;
 		$this->Favorites->add('wrongtype', 999);
-		$this->assertEqual($this->Favorites->redirectUrl, null);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Invalid object type.');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
+		$this->assertEquals($this->Favorites->redirectUrl, null);
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Invalid object type.');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
 	}
 	
 /**
@@ -344,9 +344,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$this->Favorites->delete($this->Favorites->Favorite->id);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Record removed from list');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
-		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Record removed from list');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'success');
+		$this->assertEquals($this->Favorites->redirectUrl, '/articles/index');
 	}
 
 /**
@@ -364,9 +364,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$this->Favorites->delete('999');
-		$this->assertEqual($this->Favorites->viewVars['message'], 'That record does not exist.');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
-		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
+		$this->assertEquals($this->Favorites->viewVars['message'], 'That record does not exist.');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
+		$this->assertEquals($this->Favorites->redirectUrl, '/articles/index');
 	}
 
 /**
@@ -381,10 +381,10 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 1);
 		$this->Favorites->delete($this->Favorites->Favorite->id);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'That record does not belong to you.');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
-		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
-		// $this->assertEqual($this->Favorites->viewVars['message'], 'Unable to delete favorite, please try again');
+		$this->assertEquals($this->Favorites->viewVars['message'], 'That record does not belong to you.');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
+		$this->assertEquals($this->Favorites->redirectUrl, '/articles/index');
+		// $this->assertEquals($this->Favorites->viewVars['message'], 'Unable to delete favorite, please try again');
 	}
 
 /**
@@ -405,9 +405,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->add('like', 2);
 		$fav2 = $this->Favorites->Favorite->id;
 		$this->Favorites->move($fav2, 'up');
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Favorite positions updated.');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
-		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Favorite positions updated.');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'success');
+		$this->assertEquals($this->Favorites->redirectUrl, '/articles/index');
 	}
 
 /**
@@ -426,9 +426,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->add('like', 1);
 		$fav1 = $this->Favorites->Favorite->id;
 		$this->Favorites->move($fav1, 'space');
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Invalid direction');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
-		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Invalid direction');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
+		$this->assertEquals($this->Favorites->redirectUrl, '/articles/index');
 	}
 
 /**
@@ -449,10 +449,10 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		// $this->Favorites->add('like', 2);
 		// $fav2 = $this->Favorites->Favorite->id;
 		$this->Favorites->move($fav1, 'space');
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Unable to change favorite position, please try again');
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Invalid direction');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'error');
-		$this->assertEqual($this->Favorites->redirectUrl, '/articles/index');
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Unable to change favorite position, please try again');
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Invalid direction');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
+		$this->assertEquals($this->Favorites->redirectUrl, '/articles/index');
 	}
 
 /**
@@ -476,9 +476,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->redirectUrl = null;
 		
 		$this->Favorites->delete($this->Favorites->Favorite->id);
-		$this->assertEqual($this->Favorites->viewVars['message'], 'Record removed from list');
-		$this->assertEqual($this->Favorites->viewVars['status'], 'success');
-		$this->assertEqual($this->Favorites->redirectUrl, null);
+		$this->assertEquals($this->Favorites->viewVars['message'], 'Record removed from list');
+		$this->assertEquals($this->Favorites->viewVars['status'], 'success');
+		$this->assertEquals($this->Favorites->redirectUrl, null);
 	}
 
 /**
@@ -503,8 +503,8 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->redirectUrl = null;
 		
 		$this->Favorites->list_all('like');
-		$this->assertEqual(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 2);
-		$this->assertEqual($this->Favorites->viewVars['type'], 'like');
+		$this->assertEquals(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 2);
+		$this->assertEquals($this->Favorites->viewVars['type'], 'like');
 	}
 
 /**
@@ -527,15 +527,15 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->redirectUrl = null;
 		
 		$this->Favorites->list_all('like');
-		$this->assertEqual(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 1);
-		$this->assertEqual($this->Favorites->viewVars['type'], 'like');
+		$this->assertEquals(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 1);
+		$this->assertEquals($this->Favorites->viewVars['type'], 'like');
 
 		$this->Favorites->viewVars = array();
 		$this->Favorites->redirectUrl = null;
 		
 		$this->Favorites->list_all('dislike');
-		$this->assertEqual(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 1);
-		$this->assertEqual($this->Favorites->viewVars['type'], 'dislike');
+		$this->assertEquals(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 1);
+		$this->assertEquals($this->Favorites->viewVars['type'], 'dislike');
 	}
 
 /**

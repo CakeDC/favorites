@@ -68,7 +68,7 @@ class FavoritesHelperTestCase extends CakeTestCase {
  */
 	public function testToggleFavorite() {
 		$result = $this->Favorites->toggleFavorite('watch', 1);
-		$this->assertEqual($result, '<a href="/favorites/favorites/add/watch/1" class="add-favorite watch">Watch it</a>');
+		$this->assertEquals($result, '<a href="/favorites/favorites/add/watch/1" class="add-favorite watch">Watch it</a>');
 	}
 
 /**
@@ -80,9 +80,9 @@ class FavoritesHelperTestCase extends CakeTestCase {
 		$this->View->viewVars['userFavorites'] = array('watch' => array('my-thing-id'));
 		$this->Favorites->beforeRender();
 		$result = $this->Favorites->toggleFavorite('watch', 'my-thing-id');
-		$this->assertEqual($result, '<a href="/favorites/favorites/delete/0" class="remove-favorite watch">Watch it</a>');
+		$this->assertEquals($result, '<a href="/favorites/favorites/delete/0" class="remove-favorite watch">Watch it</a>');
 
 		$result = $this->Favorites->toggleFavorite('watch', 'my-thing-id', null, 'Stop watching');
-		$this->assertEqual($result, '<a href="/favorites/favorites/delete/0" class="remove-favorite watch">Stop watching</a>');
+		$this->assertEquals($result, '<a href="/favorites/favorites/delete/0" class="remove-favorite watch">Stop watching</a>');
 	}
 }

@@ -116,17 +116,17 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 		$this->assertTrue(isset($this->Article->Favorite->FavoriteArticle));
 
 		$assoc = $this->Article->hasMany['Favorite'];
-		$this->assertEqual($assoc['className'], 'Favorites.Favorite');
-		$this->assertEqual($assoc['conditions'], array('Favorite.model' => 'FavoriteArticle'));
+		$this->assertEquals($assoc['className'], 'Favorites.Favorite');
+		$this->assertEquals($assoc['conditions'], array('Favorite.model' => 'FavoriteArticle'));
 
 		$assoc = $this->Article->Favorite->belongsTo['FavoriteArticle'];
-		$this->assertEqual($assoc['counterCache'], 'favorite_count');
-		$this->assertEqual($assoc['conditions'], '');
+		$this->assertEquals($assoc['counterCache'], 'favorite_count');
+		$this->assertEquals($assoc['conditions'], '');
 
 		$expected = array(
 			'like' => array('limit' => null, 'model' => 'FavoriteArticle'),
 			'dislike' => array('limit' => null, 'model' => 'FavoriteArticle'));
-		$this->assertEqual($this->Article->Behaviors->Favorite->favoriteTypes, $expected);
+		$this->assertEquals($this->Article->Behaviors->Favorite->favoriteTypes, $expected);
 	}
 
 /**
@@ -139,9 +139,9 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 		$this->assertTrue(is_array($result));
 
 		$result = $this->FavoriteModel->read();
-		$this->assertEqual($result['Favorite']['user_id'], 1);
-		$this->assertEqual($result['Favorite']['model'], 'FavoriteArticle');
-		$this->assertEqual($result['Favorite']['foreign_key'], 1);
+		$this->assertEquals($result['Favorite']['user_id'], 1);
+		$this->assertEquals($result['Favorite']['model'], 'FavoriteArticle');
+		$this->assertEquals($result['Favorite']['foreign_key'], 1);
 		$oldId = $result['Favorite']['id'];
 
 		//save twice will fail
@@ -150,14 +150,14 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 			$this->fail('No Exception');
 		} catch (Exception $e) {
 			$error = $e->getMessage();
-			$this->assertEqual($error, 'Already added.');
+			$this->assertEquals($error, 'Already added.');
 		}
 
 		$result = $this->FavoriteModel->read();
-		$this->assertEqual($result['Favorite']['user_id'], 1);
-		$this->assertEqual($result['Favorite']['model'], 'FavoriteArticle');
-		$this->assertEqual($result['Favorite']['foreign_key'], 1);
-		$this->assertEqual($oldId, $result['Favorite']['id']);
+		$this->assertEquals($result['Favorite']['user_id'], 1);
+		$this->assertEquals($result['Favorite']['model'], 'FavoriteArticle');
+		$this->assertEquals($result['Favorite']['foreign_key'], 1);
+		$this->assertEquals($oldId, $result['Favorite']['id']);
 	}
 
 /**
@@ -179,7 +179,7 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 			$this->Article->saveFavorite(1, 'FavoriteArticle', 'like', 3);
 			$this->fail('No exception thrown when saving too many favorites');		
 		} catch (Exception $e) {
-			$this->assertEqual($e->getMessage(), 'You cannot add more than 2 items to this list');
+			$this->assertEquals($e->getMessage(), 'You cannot add more than 2 items to this list');
 		}
 		$result = $this->Article->saveFavorite(2, 'FavoriteArticle', 'like', 3);
 		$this->assertTrue(is_array($result));
@@ -193,18 +193,18 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
 	public function testIncrementingFavorites() {
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 1);
 		$result = $this->FavoriteModel->read();
-		$this->assertEqual($result['Favorite']['position'], 0);
+		$this->assertEquals($result['Favorite']['position'], 0);
 
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 2);
 		$result = $this->FavoriteModel->read();
-		$this->assertEqual($result['Favorite']['position'], 1);
+		$this->assertEquals($result['Favorite']['position'], 1);
 
 		$this->Article->saveFavorite(1, 'FavoriteArticle', 'default', 12334);
 		$result = $this->FavoriteModel->read();
-		$this->assertEqual($result['Favorite']['position'], 2);
+		$this->assertEquals($result['Favorite']['position'], 2);
 
 		$this->Article->saveFavorite(22222, 'FavoriteArticle', 'default', 12334);
 		$result = $this->FavoriteModel->read();
-		$this->assertEqual($result['Favorite']['position'], 0);
+		$this->assertEquals($result['Favorite']['position'], 0);
 	}
 }
