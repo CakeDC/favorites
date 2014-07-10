@@ -9,58 +9,61 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-App::import('Controller', 'Favorites.Favorites');
-App::import('Component', array('Auth'));
+App::uses('FavoritesController', 'Favorites.Controller');
+App::uses('AuthComponent', 'Controller/Component');
+App::uses('AppController', 'Controller');
 
-/**
- * FavoritesController Test Case
- *
- * @package favorites
- * @subpackage favorites.tests.cases.controllers
- */
-class FavoriteArticle extends CakeTestModel {
+if (!class_exists('FavoriteArticle')) {
+	/**
+	 * FavoritesController Test Case
+	 *
+	 * @package favorites
+	 * @subpackage favorites.tests.cases.controllers
+	 */
+	class FavoriteArticle extends CakeTestModel {
 
-/**
- * useTable
- *
- * @var string
- */
-	public $useTable = 'articles';
+	/**
+	 * useTable
+	 *
+	 * @var string
+	 */
+		public $useTable = 'articles';
 
-/**
- * actsAs
- *
- * @var array
- */
-	public $actsAs = array('Favorites.Favorite');
+	/**
+	 * actsAs
+	 *
+	 * @var array
+	 */
+		public $actsAs = array('Favorites.Favorite');
 
-/**
- * belongsTo
- *
- * @var array
- */
-	public $belongsTo = array(
-		'FavoriteUser' => array(
-			'className' => 'FavoriteUser',
-			'foreignKey' => 'user_id'
-		)
-	);
-}
+	/**
+	 * belongsTo
+	 *
+	 * @var array
+	 */
+		public $belongsTo = array(
+			'FavoriteUser' => array(
+				'className' => 'FavoriteUser',
+				'foreignKey' => 'user_id'
+			)
+		);
+	}
 
-/**
- * FavoriteUser
- *
- * @package favorites
- * @subpackage favorites.tests.cases.controllers
- */
-class FavoriteUser extends CakeTestModel {
+	/**
+	 * FavoriteUser
+	 *
+	 * @package favorites
+	 * @subpackage favorites.tests.cases.controllers
+	 */
+	class FavoriteUser extends CakeTestModel {
 
-/**
- * useTable
- *
- * @var string
- */
-	public $useTable = 'users';
+	/**
+	 * useTable
+	 *
+	 * @var string
+	 */
+		public $useTable = 'users';
+	}
 }
 
 /**
@@ -70,6 +73,15 @@ class FavoriteUser extends CakeTestModel {
  * @subpackage favorites.tests.cases.controllers
  */
 class TestFavoritesController extends FavoritesController {
+
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array(
+		'Session'
+	);
 
 /**
  * Auto render
@@ -116,7 +128,7 @@ class TestFavoritesController extends FavoritesController {
  */
 	public function render($action = null, $layout = null, $file = null) {
 		$this->renderedView = $action;
-	} 
+	}
 }
 
 /**
@@ -135,14 +147,15 @@ class FavoritesControllerTestCase extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.favorites.favorite',
 		'core.article',
-		'core.user');
+		'core.user'
+	);
 
 /**
  * startTest
  *
  * @return void
  */
-	public function startTest() {
+	public function setUp() {
 		Configure::write('Favorites.types', array('like' => 'FavoriteArticle', 'dislike' => 'FavoriteArticle'));
 		Configure::write('Favorites.modelCategories', array('FavoriteArticle'));
 		$this->Favorites = new TestFavoritesController(new CakeRequest());
@@ -163,7 +176,7 @@ class FavoritesControllerTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function endTest() {
+	public function tearDown() {
 		unset($this->Favorites);
 		ClassRegistry::flush();
 	}

@@ -9,55 +9,59 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+if (!class_exists('FavoriteArticle')) {
 /**
- * FavoriteBehavior Test Case
+ * Favorite Model Test Case
  *
  * @package favorites
- * @subpackage favorites.tests.cases.behaviors
+ * @subpackage favorites.tests.cases.models
  */
-class FavoriteArticle extends CakeTestModel {
+	class FavoriteArticle extends CakeTestModel {
 
-/**
- * useTable
- *
- * @var string
- */
-	public $useTable = 'articles';
+	/**
+	 * useTable
+	 *
+	 * @var string
+	 */
+		public $useTable = 'articles';
 
-/**
- * actsAs
- *
- * @var array
- */
-	public $actsAs = array('Favorites.Favorite');
+	/**
+	 * actsAs
+	 *
+	 * @var array
+	 */
+		public $actsAs = array(
+			'Favorites.Favorite'
+		);
 
-/**
- * belongsTo
- *
- * @var array
- */
-	public $belongsTo = array(
-		'FavoriteUser' => array(
-			'className' => 'FavoriteUser',
-			'foreignKey' => 'user_id'
-		)
-	);
-}
+	/**
+	 * belongsTo
+	 *
+	 * @var array
+	 */
+		public $belongsTo = array(
+			'FavoriteUser' => array(
+				'className' => 'FavoriteUser',
+				'foreignKey' => 'user_id'
+			)
+		);
+	}
 
 /**
  * FavoriteUser
  *
  * @package favorites
- * @subpackage favorites.tests.cases.behaviors
+ * @subpackage favorites.tests.cases.models
  */
-class FavoriteUser extends CakeTestModel {
+	class FavoriteUser extends CakeTestModel {
 
-/**
- * useTable
- *
- * @var string
- */
-	public $useTable = 'users';
+	/**
+	 * useTable
+	 *
+	 * @var string
+	 */
+		public $useTable = 'users';
+	}
 }
 
 /**
@@ -83,7 +87,7 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function startTest() {
+	public function setUp() {
 		Configure::write('Favorites.types', array('like' => 'FavoriteArticle', 'dislike' => 'FavoriteArticle'));
 		Configure::write('Favorites.modelCategories', array('FavoriteArticle'));
 
@@ -97,7 +101,7 @@ class FavoriteBehaviorTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function endTest() {
+	public function tearDown() {
 		unset($this->Article);
 		ClassRegistry::flush();
 	}
