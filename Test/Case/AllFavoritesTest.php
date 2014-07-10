@@ -19,7 +19,7 @@ class AllFavoritesPluginTest extends PHPUnit_Framework_TestSuite {
 	public static function suite() {
 		$Suite = new CakeTestSuite('All Favorites Plugin tests');
 
-		$basePath = CakePlugin::path('Users') . DS . 'Test' . DS . 'Case' . DS;
+		$basePath = CakePlugin::path('Favorites') . DS . 'Test' . DS . 'Case' . DS;
 		$Suite->addTestDirectory($basePath . DS . 'Controller');
 		$Suite->addTestDirectory($basePath . DS . 'Model');
 		$Suite->addTestDirectory($basePath . DS . 'Model' . DS . 'Behavior');
