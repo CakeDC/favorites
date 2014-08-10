@@ -328,7 +328,7 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->assertEquals($this->Favorites->viewVars['message'], 'Invalid object type "wrongtype".');
 		$this->assertEquals($this->Favorites->viewVars['status'], 'error');
 	}
-	
+
 /**
  * testDelete
  *
@@ -472,9 +472,9 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->beforeFilter();
 		$this->Favorites->request->params['isAjax'] = true;
 		$this->Favorites->add('like', 1);
-		
+
 		$this->Favorites->redirectUrl = null;
-		
+
 		$this->Favorites->delete($this->Favorites->Favorite->id);
 		$this->assertEquals($this->Favorites->viewVars['message'], 'Record removed from list');
 		$this->assertEquals($this->Favorites->viewVars['status'], 'success');
@@ -498,10 +498,10 @@ class FavoritesControllerTestCase extends CakeTestCase {
 		$this->Favorites->beforeFilter();
 		$this->Favorites->add('like', 2);
 		$this->Favorites->add('like', 1);
-		
+
 		$this->Favorites->viewVars = array();
 		$this->Favorites->redirectUrl = null;
-		
+
 		$this->Favorites->list_all('like');
 		$this->assertEquals(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 2);
 		$this->assertEquals($this->Favorites->viewVars['type'], 'like');
@@ -525,14 +525,14 @@ class FavoritesControllerTestCase extends CakeTestCase {
 
 		$this->Favorites->viewVars = array();
 		$this->Favorites->redirectUrl = null;
-		
+
 		$this->Favorites->list_all('like');
 		$this->assertEquals(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 1);
 		$this->assertEquals($this->Favorites->viewVars['type'], 'like');
 
 		$this->Favorites->viewVars = array();
 		$this->Favorites->redirectUrl = null;
-		
+
 		$this->Favorites->list_all('dislike');
 		$this->assertEquals(count($this->Favorites->viewVars['favorites']['FavoriteArticle']), 1);
 		$this->assertEquals($this->Favorites->viewVars['type'], 'dislike');

@@ -29,9 +29,7 @@ class Favorite extends AppModel {
  *
  * @var array
  */
-	protected $_listCategories = array(
-		'Book'
-	);
+	protected $_listCategories = array();
 
 /**
  * Additional Find types to be used with find($type);
@@ -51,10 +49,7 @@ class Favorite extends AppModel {
  */
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
-		$categories = Configure::read('Favorites.modelCategories');
-		if (!empty($categories)) {
-			$this->_listCategories = (array)$categories;
-		}
+		$this->_listCategories = (array)Configure::read('Favorites.modelCategories');
 	}
 
 /**
@@ -161,10 +156,11 @@ class Favorite extends AppModel {
 			'conditions' => array(
 				$this->alias . '.user_id' => $userId,
 				$this->alias . '.type' => $options['type'],
-				$this->alias . '.model' => $this->_getSupported('types', $options)),
+				$this->alias . '.model' => $this->_getSupported('types', $options)
+			),
 			'order' => $this->alias . '.position ASC',
 			'contain' => $this->_getSupported('contain', $options));
-			$results = Set::merge($default, $query);
+			$results = Hash::merge($default, $query);
 			if (isset($query['operation']) && $query['operation'] == 'count') {
 				$results['fields'] = array('count(*)');
 			}
@@ -203,6 +199,7 @@ class Favorite extends AppModel {
 
 /**
  * Get all the favorites for a user by type
+ *
  * Works similar to getFavoriteLists() but returns full associated model,
  * Making display more flexible.
  *
@@ -211,10 +208,12 @@ class Favorite extends AppModel {
  * @return array Array of favorites for the user keyed by type.
  */
 	public function getByType($userId, $options = array()) {
-		$_defaults = array('limit' => 16, 'type' => 'default');
+		$_defaults = array(
+			'limit' => 16,
+			'type' => 'default'
+		);
 		$options = array_merge($_defaults, $options);
 		$limit = $options['limit'];
-
 		$favorites = $this->getFavorites($userId, $options);
 		$out = $categoryCounts = array();
 		foreach ($favorites as $item) {
@@ -345,7 +344,7 @@ class Favorite extends AppModel {
  *
  * @param $type
  * @param $options
- * @return unknown_type
+ * @return array
  */
 	protected function _getSupported($type, $options = array()) {
 		$assocs = array_keys($this->belongsTo);
@@ -389,7 +388,11 @@ class Favorite extends AppModel {
 		$result = $this->delete($id);
 		if ($result) {
 			if (method_exists($Model, 'afterDeleteFavorite')) {
-				$result = $Model->afterDeleteFavorite(array('id' => $record['foreign_key'], 'userId' => $record['user_id'], 'model' => $model, 'type' => $record['type']));
+				$result = $Model->afterDeleteFavorite(array(
+					'id' => $record['foreign_key'],
+					'userId' => $record['user_id'],
+					'model' => $model, 'type' => $record['type']
+				));
 			}
 			return $result;
 		}

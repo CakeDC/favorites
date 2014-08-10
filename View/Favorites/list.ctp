@@ -11,10 +11,8 @@
 
 /**
  * Output for getting a list of favorites of a type for a user.
- *
  */
 $key = Inflector::camelize($type);
-
 $emptyMessage = (isset($emptyMessage)) ? $emptyMessage : __d('favorites', 'You have no favorites in this category.');
 $name = 'name';
 ?>
@@ -28,7 +26,7 @@ $name = 'name';
 		<li>
 			<span class="title-bar"><span><?php echo h($fav[$key][$name]); ?></span></span>
 			<span class="sort-controls">
-				<span class="index"><?php echo $i+ 1; ?></span>
+				<span class="index"><?php echo $i + 1; ?></span>
 			</span>
 		</li>
 	<?php endforeach; ?>
