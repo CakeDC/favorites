@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+ * Copyright 2009-2014, Cake Development Corporation (http://cakedc.com)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+ * @copyright Copyright 2009-2014, Cake Development Corporation (http://cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -87,11 +87,11 @@ class FavoriteBehavior extends ModelBehavior {
 				'counterCache' => $this->settings[$Model->alias]['counterCache']
 			),
 		)), false);
-		
-		$types = Configure::read('Favorites.types');
+
+		$types = (array)Configure::read('Favorites.types');
 		$this->favoriteTypes = array();
 		if (!empty($types)) {
-			foreach ((array) $types as $key => $type) {
+			foreach ($types as $key => $type) {
 				$this->favoriteTypes[$key] = is_array($type) ? $type : array('model' => $type);
 				if (empty($this->favoriteTypes[$key]['limit'])) {
 					$this->favoriteTypes[$key]['limit'] = null;
@@ -117,7 +117,7 @@ class FavoriteBehavior extends ModelBehavior {
 				throw new Exception(__d('favorites', 'Operation is not allowed'));
 			}
 		}
-	
+
 		$existing = $Model->Favorite->find('count', array(
 			'conditions' => array(
 				'Favorite.user_id' => $userId,

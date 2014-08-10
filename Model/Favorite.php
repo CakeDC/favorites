@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+ * Copyright 2009-2014, Cake Development Corporation (http://cakedc.com)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+ * @copyright Copyright 2009-2014, Cake Development Corporation (http://cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -60,9 +60,10 @@ class Favorite extends AppModel {
 /**
  * Get favorite list for a logged in user.
  *
+ * @param string $type
  * @param mixed $userId Id of the user you want to make lists for.
  * @param int $limit Number of list items to get in each category (defaults to 100).
- * @return void
+ * @return array
  */
 	public function getFavoriteLists($type, $userId, $limit = 100) {
 		$listItems = $this->getFavorites($userId, array('type' => $type));
@@ -96,9 +97,11 @@ class Favorite extends AppModel {
 /**
  * Helper method for getByType and getFavoriteLists
  *
+ * @param string $userId
+ * @param array $options
  * @return array
  */
-	public function getFavorites($userId, $options) {
+	public function getFavorites($userId, $options = array()) {
 		$favorites = $this->find('all', array(
 			'conditions' => array(
 				$this->alias . '.user_id' => $userId,
@@ -134,14 +137,13 @@ class Favorite extends AppModel {
 		return $result;
 	}
 
-
 /**
  * Returns the search data
  *
  * @param string
  * @param array
  * @param array
- * @return
+ * @return array
  */
 	protected function _findFavorite($state, $query, $results = array()) {
 		if ($state == 'before') {
@@ -184,9 +186,9 @@ class Favorite extends AppModel {
  * @param array
  * @param integer
  * @param array
- * @return
+ * @return array
  */
-	function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
+	public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
 		$parameters = compact('conditions');
 		if ($recursive != $this->recursive) {
 			$parameters['recursive'] = $recursive;
@@ -373,8 +375,7 @@ class Favorite extends AppModel {
 /**
  * Delete with calling model callbacks
  *
- * @param $type
- * @param $options
+ * @param $id
  * @return boolean
  */
 	public function deleteRecord($id) {

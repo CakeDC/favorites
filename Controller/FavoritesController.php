@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+ * Copyright 2009-2014, Cake Development Corporation (http://cakedc.com)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright 2009-2010, Cake Development Corporation (http://cakedc.com)
+ * @copyright Copyright 2009-2014, Cake Development Corporation (http://cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -29,7 +29,19 @@ class FavoritesController extends AppController {
  *
  * @var array
  */
-	public $uses = array('Favorites.Favorite');
+	public $uses = array(
+		'Favorites.Favorite'
+	);
+
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array(
+		'Session',
+		'Auth'
+	);
 
 /**
  * Allowed Types of things to be favorited
@@ -40,18 +52,44 @@ class FavoritesController extends AppController {
 	public $favoriteTypes = array();
 
 /**
+ * Constructor
+ *
+ * @param CakeRequest $request Request object for this controller. Can be null for testing,
+ *  but expect that features that use the request parameters will not work.
+ * @param CakeResponse $response Response object for this controller.
+ */
+	public function __construct($request, $response) {
+		$this->_setupComponents();
+		parent::__construct($request, $response);
+	}
+
+/**
+ * Setup components
+ *
+ * @return void
+ */
+	protected function _setupComponents() {
+		if (in_array('Auth', $this->components)) {
+			$this->components[] = 'Auth';
+		}
+		if (in_array('Session', $this->components)) {
+			$this->components[] = 'Session';
+		}
+	}
+
+/**
  * beforeFilter callback
  *
  * @return void
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->deny($this->Auth->allowedActions);
+		//$this->Auth->deny($this->Auth->allowedActions);
 		$types = Configure::read('Favorites.types');
 		if (!empty($types)) {
 			$this->favoriteTypes = array();
 			// Keep only key / values (type / model)
-			foreach ((array) $types as $key => $type) {
+			foreach ((array)$types as $key => $type) {
 				if (is_string($type)) {
 					$this->favoriteTypes[$key] = $type;
 				} elseif (is_array($type) && array_key_exists('model', $type)) {
@@ -72,7 +110,7 @@ class FavoritesController extends AppController {
 	public function add($type = null, $foreignKey = null) {
 		$status = 'error';
 		if (!isset($this->favoriteTypes[$type])) {
-			$message = __d('favorites', 'Invalid object type.');
+			$message = __d('favorites', 'Invalid object type "%s".', $type);
 		} else {
 			$Subject = ClassRegistry::init($this->favoriteTypes[$type]);
 			$Subject->id = $foreignKey;
@@ -82,7 +120,6 @@ class FavoritesController extends AppController {
 				$message = __d('favorites', 'Invalid identifier');
 			} else {
 				try {
-//					debug($this->Auth->user('id'));
 					$result = $Subject->saveFavorite($this->Auth->user('id'), $Subject->name, $type, $foreignKey);
 					if ($result) {
 						$status = 'success';
@@ -133,7 +170,7 @@ class FavoritesController extends AppController {
 	public function short_list($type = null) {
 		$type = Inflector::underscore($type);
 		if (!isset($this->favoriteTypes[$type])) {
-			$this->Session->setFlash(__d('favorites', 'Invalid object type.'));
+			$this->Session->setFlash(__d('favorites', 'Invalid object type "%s".', $type));
 			return;
 		}
 		$userId = $this->Auth->user('id');
@@ -151,7 +188,7 @@ class FavoritesController extends AppController {
 	public function list_all($type = null) {
 		$type = strtolower($type);
 		if (!isset($this->favoriteTypes[$type])) {
-			$this->Session->setFlash(__d('favorites', 'Invalid object type.'));
+			$this->Session->setFlash(__d('favorites', 'Invalid object type "%s".', $type));
 			return;
 		}
 		$userId = $this->Auth->user('id');
