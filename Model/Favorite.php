@@ -31,7 +31,7 @@ class Favorite extends AppModel {
  *
  * @var array
  */
-	public $_findMethods = array(
+	public $findMethods = array(
 		'favorite' => true
 	);
 
